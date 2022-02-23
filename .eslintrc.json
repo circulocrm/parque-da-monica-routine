@@ -18,6 +18,8 @@
     "rules": {
         "linebreak-style": 0,
         "import/no-unresolved": 0,
-        "import/extensions": 0
+        "import/extensions": 0,
+        "no-extra-semi": 0,
+        "semi": 0
     }
 }
