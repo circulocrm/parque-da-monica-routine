@@ -22,4 +22,20 @@ describe('Repository implementation', () => {
 
     expect(mockReportImplementation.logs).toEqual([]);
   });
+
+  it('Should add a new log to logs array', () => {
+    const mockReportImplementation = new MockReportImplementation();
+
+    mockReportImplementation.addLog({ text: 'newLog', date: '25/02' });
+
+    expect(mockReportImplementation.logs).toEqual([{ text: 'newLog', date: '25/02' }])
+  })
+
+  it('It should not return empty array when add logs', () => {
+    const mockReportImplementation = new MockReportImplementation();
+
+    mockReportImplementation.addLog({ text: 'newLog', date: '25/02' });
+
+    expect(mockReportImplementation.logs).not.toEqual([])
+  })
 });
