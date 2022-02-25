@@ -4,10 +4,8 @@ import { IReportRepository } from '../ReportRepositorie';
 
 export default class MongoDBRepository implements IReportRepository {
   async getLogs(): Promise<ILog[]> {
-    const logs = await ReportModel
-      .findById({ _id: process.env.TABLE_ID, logs: 1, connected: 0 })
-      .sort(-1);
-    return logs;
+    const logsArr = await ReportModel.find({ _id: process.env.TABLE_ID }, { logs: 1, _id: 0 });
+    return logsArr[0].logs;
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -30,7 +28,7 @@ export default class MongoDBRepository implements IReportRepository {
 
   async isConnected(): Promise<boolean> {
     const connected = await ReportModel
-      .findById({ _id: process.env.TABLE_ID, connected: 1, logs: 0 }) as boolean;
+      .findOne({ _id: process.env.TABLE_ID, connected: 1, logs: 0 }) as boolean;
     return connected;
   }
 
