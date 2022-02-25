@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import app from './App';
+import app from './app';
 
 declare const process: {
   env: {

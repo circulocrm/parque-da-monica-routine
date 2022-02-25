@@ -1,21 +1,47 @@
-import Log from '../../Entities/Log';
-import LogModel from '../../scheema/LogSchemma';
+import ILog from '../../Entities/Log';
+import ReportModel from '../../scheema/ReportSchemma';
 import { IReportRepository } from '../ReportRepositorie';
 
 export default class MongoDBRepository implements IReportRepository {
-  async getLogs(): Promise<void> {
-    const logs = await LogModel.find().sort(-1);
+  async getLogs(): Promise<ILog[]> {
+    const logs = await ReportModel
+      .findById({ _id: process.env.TABLE_ID, logs: 1, connected: 0 })
+      .sort(-1);
+    return logs;
   }
 
-  handleConnect(connect?: boolean): Promise<boolean> {
+  // eslint-disable-next-line no-unused-vars
+  async handleConnect(connect?: boolean): Promise<void> {
+    if (await this.isConnected()) {
+      await ReportModel.updateOne({
+        _id: process.env.TABLE_ID,
+      }, {
+        connected: false,
+      });
+      return;
+    }
 
+    await ReportModel.updateOne({
+      _id: process.env.TABLE_ID,
+    }, {
+      connected: true,
+    });
   }
 
-  isConnected(): Promise<boolean> {
-
+  async isConnected(): Promise<boolean> {
+    const connected = await ReportModel
+      .findById({ _id: process.env.TABLE_ID, connected: 1, logs: 0 }) as boolean;
+    return connected;
   }
 
-  addLog(log: Log): Promise<void> {
-
+  // eslint-disable-next-line no-unused-vars
+  async addLog(log: ILog): Promise<void> {
+    await ReportModel.updateOne({
+      _id: process.env.TABLE_ID,
+    }, {
+      $push: {
+        logs: log,
+      },
+    });
   }
 }

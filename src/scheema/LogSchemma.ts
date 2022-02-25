@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema } from 'mongoose';
 
 const logSchemma = new Schema({
   text: { type: String, required: true },
@@ -6,6 +6,4 @@ const logSchemma = new Schema({
   created_at: { type: Date, required: false, default: Date.now() },
 })
 
-const LogModel = model('logs', logSchemma);
-
-export default LogModel;
+export default logSchemma;
