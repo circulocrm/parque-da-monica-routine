@@ -11,7 +11,7 @@ export default class MongoDBRepository implements IReportRepository {
   }
 
   // eslint-disable-next-line no-unused-vars
-  async handleConnect(connect?: boolean): Promise<void> {
+  async handleConnect(): Promise<void> {
     if (await this.isConnected()) {
       await ReportModel.updateOne({
         _id: process.env.TABLE_ID,
