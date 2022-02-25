@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @types/node-openvpn -D
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @types/cisco-vpn
 
 PATH: 
-  C:\Python310\Scripts\;C:\Python310\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\Yarn\bin;C:\ProgramData\chocolatey\bin;%NVM_HOME%;%NVM_SYMLINK%;C:\Program Files\nodejs\;C:\Users\beatr\AppData\Local\Microsoft\WindowsApps;C:\Users\beatr\AppData\Local\Programs\Microsoft VS Code\bin;C:\MinGW\bin;C:\Users\beatr\AppData\Local\Yarn\bin;C:\Users\beatr\AppData\Roaming\nvm;C:\Users\beatr\AppData\Roaming\npm
+  C:\Python310\Scripts\;C:\Python310\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\Yarn\bin;C:\ProgramData\chocolatey\bin;%NVM_HOME%;%NVM_SYMLINK%;C:\Program Files\nodejs\;C:\Users\beatr\AppData\Local\Microsoft\WindowsApps;C:\Users\beatr\AppData\Local\Programs\Microsoft VS Code\bin;C:\MinGW\bin;C:\Users\beatr\AppData\Local\Yarn\bin;C:\Users\beatr\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\beatr\AppData\Roaming\npm
 
 Yarn version: 
   1.3.2
@@ -22,6 +22,8 @@ npm manifest:
     "license": "MIT",
     "scripts": {
       "dev": "ts-node-dev --respawn --transpileOnly --ignore-watch node_modules --no-notify src/server.ts",
+      "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
+      "start": "node dist/server.js",
       "test": "jest"
     },
     "devDependencies": {
@@ -39,7 +41,10 @@ npm manifest:
       "typescript": "^4.5.5"
     },
     "dependencies": {
+      "@types/axios": "^0.14.0",
       "@types/supertest": "^2.0.11",
+      "axios": "^0.26.0",
+      "cisco-vpn": "^1.0.2",
       "express": "^4.17.3",
       "supertest": "^6.2.2"
     }
@@ -554,6 +559,12 @@ Lockfile:
     version "1.1.2"
     resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   
+  "@types/axios@^0.14.0":
+    version "0.14.0"
+    resolved "https://registry.yarnpkg.com/@types/axios/-/axios-0.14.0.tgz#ec2300fbe7d7dddd7eb9d3abf87999964cafce46"
+    dependencies:
+      axios "*"
+  
   "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.14":
     version "7.1.18"
     resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.18.tgz#1a29abcc411a9c05e2094c98f9a1b7da6cdf49f8"
@@ -918,6 +929,12 @@ Lockfile:
     version "0.4.0"
     resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   
+  axios@*, axios@^0.26.0:
+    version "0.26.0"
+    resolved "https://registry.yarnpkg.com/axios/-/axios-0.26.0.tgz#9a318f1c69ec108f8cd5f3c3d390366635e13928"
+    dependencies:
+      follow-redirects "^1.14.8"
+  
   babel-jest@^27.5.1:
     version "27.5.1"
     resolved "https://registry.yarnpkg.com/babel-jest/-/babel-jest-27.5.1.tgz#a1bf8d61928edfefd21da27eb86a695bfd691444"
@@ -1107,6 +1124,13 @@ Lockfile:
   ci-info@^3.2.0:
     version "3.3.0"
     resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-3.3.0.tgz#b4ed1fb6818dea4803a55c623041f9165d2066b2"
+  
+  cisco-vpn@^1.0.2:
+    version "1.0.2"
+    resolved "https://registry.yarnpkg.com/cisco-vpn/-/cisco-vpn-1.0.2.tgz#7670883168c42a76266f9a5017755e95c1342ac4"
+    dependencies:
+      throw-if-missing "1.1.0"
+      tmp "0.0.33"
   
   cjs-module-lexer@^1.0.0:
     version "1.2.2"
@@ -1715,6 +1739,10 @@ Lockfile:
   flatted@^3.1.0:
     version "3.2.5"
     resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.2.5.tgz#76c8584f4fc843db64702a6bd04ab7a8bd666da3"
+  
+  follow-redirects@^1.14.8:
+    version "1.14.9"
+    resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.9.tgz#dd4ea157de7bfaf9ea9b3fbd85aa16951f78d8d7"
   
   form-data@^3.0.0:
     version "3.0.1"
@@ -2840,6 +2868,10 @@ Lockfile:
       type-check "^0.4.0"
       word-wrap "^1.2.3"
   
+  os-tmpdir@~1.0.2:
+    version "1.0.2"
+    resolved "https://registry.yarnpkg.com/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"
+  
   p-limit@^1.1.0:
     version "1.3.0"
     resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-1.3.0.tgz#b86bd5f0c25690911c7590fcbfc2010d54b3ccb8"
@@ -3350,6 +3382,16 @@ Lockfile:
     version "6.0.1"
     resolved "https://registry.yarnpkg.com/throat/-/throat-6.0.1.tgz#d514fedad95740c12c2d7fc70ea863eb51ade375"
   
+  throw-if-missing@1.1.0:
+    version "1.1.0"
+    resolved "https://registry.yarnpkg.com/throw-if-missing/-/throw-if-missing-1.1.0.tgz#7210d3cd598563af9db39b5a50f76e08fb19b2b8"
+  
+  tmp@0.0.33:
+    version "0.0.33"
+    resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.33.tgz#6d34335889768d21b2bcda0aa277ced3b1bfadf9"
+    dependencies:
+      os-tmpdir "~1.0.2"
+  
   tmpl@1.0.5:
     version "1.0.5"
     resolved "https://registry.yarnpkg.com/tmpl/-/tmpl-1.0.5.tgz#8683e0b902bb9c20c4f726e3c0b69f36518c07cc"
@@ -3671,7 +3713,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fnode-openvpn: Not found
+  Error: https://registry.yarnpkg.com/@types%2fcisco-vpn: Not found
       at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:62098:18)
       at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:123085:22)
       at Request.emit (node:events:390:28)
