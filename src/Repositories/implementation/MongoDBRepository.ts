@@ -8,31 +8,48 @@ export default class MongoDBRepository implements IReportRepository {
   }
 
   async getLastLog(): Promise<ILog> {
-    const [log] = await LogModel.find().sort({ created_at: -1 }).limit(1) as ILog[];
-    return log;
+    const logs = await this.getLogs();
+    const log = logs.slice(-1)[0];
+
+    return log || {
+      connected: false,
+      text: 'Servidor VPN desconectado',
+      date: new Date().toISOString(),
+    };
   }
 
   // eslint-disable-next-line no-unused-vars
-  async handleConnect(): Promise<void> {
-    const { connected } = await this.getLastLog();
-    if (connected) {
-      await this.addLog({
-        text: 'Servidor VPN desconectado',
-        connected: !connected,
-        date: new Date().toISOString(),
-      });
-      return;
+  async handleConnect(type: 'connect' | 'disconnect'): Promise<void> {
+    switch (type) {
+      case 'connect':
+        await this.addLog({
+          connected: true,
+          text: 'Servidor VPN conectado',
+          date: new Date().toISOString(),
+        });
+        return;
+
+      case 'disconnect':
+        await this.addLog({
+          connected: false,
+          text: 'Servidor VPN desconectado',
+          date: new Date().toISOString(),
+        })
+        return;
+
+      default:
+        await this.addLog({
+          connected: false,
+          text: 'Servidor VPN desconectado',
+          date: new Date().toISOString(),
+        });
     }
-    await this.addLog({
-      text: 'Servidor VPN conectado',
-      connected: !connected,
-      date: new Date().toISOString(),
-    });
   }
 
   async isConnected(): Promise<boolean> {
-    const { connected } = await this.getLastLog();
-    return connected;
+    const log = await this.getLastLog();
+
+    return log.connected;
   }
 
   // eslint-disable-next-line no-unused-vars

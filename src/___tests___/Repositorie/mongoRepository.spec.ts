@@ -14,21 +14,27 @@ describe('Repository implementation', () => {
     await mongoose.disconnect();
   });
 
-  // it('Should return true when connected', async () => {
-  //   const mongoRepository = new MongoDBRepository();
-  //   await mongoRepository.handleConnect();
+  afterEach(async () => {
+    await LogModel.deleteMany({});
+  });
 
-  //   expect(await mongoRepository.isConnected()).toBe(true);
-  // });
+  it('Should return true when connected', async () => {
+    const mongoRepository = new MongoDBRepository();
+    await mongoRepository.handleConnect('disconnect');
+    await mongoRepository.handleConnect('connect');
+    // console.log(await mongoRepository.getLogs());
 
-  // it('Should return false when connected', async () => {
-  //   const mongoRepository = new MongoDBRepository();
+    expect(await mongoRepository.isConnected()).toBe(true);
+  });
 
-  //   await mongoRepository.handleConnect();
-  //   await mongoRepository.handleConnect();
+  it('Should return false when unconnected', async () => {
+    const mongoRepository = new MongoDBRepository();
 
-  //   expect(await mongoRepository.isConnected()).toBe(false);
-  // });
+    await mongoRepository.handleConnect('connect');
+    await mongoRepository.handleConnect('disconnect');
+
+    expect(await mongoRepository.isConnected()).toBe(false);
+  });
 
   it('Should return empty array when has no logs', async () => {
     const mongoRepository = new MongoDBRepository();
