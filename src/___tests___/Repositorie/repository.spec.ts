@@ -8,7 +8,7 @@ describe('Repository implementation', () => {
     expect(mockReportImplementation.connected).toBe(true);
   });
 
-  it('Should return false when connected', () => {
+  it('Should return false when unconnected', () => {
     const mockReportImplementation = new MockReportImplementation();
 
     mockReportImplementation.handleConnect();

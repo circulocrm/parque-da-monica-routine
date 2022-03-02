@@ -93,8 +93,8 @@ module.exports = {
   // notifyMode: "failure-change",
 
   // A preset that is used as a base for Jest's configuration
-  preset: "ts-jest",
-
+  preset: "@shelf/jest-mongodb",
+  verbose: true,
   // Run tests from one or more projects
   // projects: undefined,
 
@@ -116,10 +116,9 @@ module.exports = {
   // The root directory that Jest should scan for tests and modules within
   // rootDir: undefined,
 
-  // A list of paths to directories that Jest should use to search for files in
-  // roots: [
-  //   "<rootDir>"
-  // ],
+  roots: [
+    './src/___tests___'
+  ],
 
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",

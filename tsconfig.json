@@ -8,7 +8,7 @@
     "rootDir": "./src",
     "typeRoots": [
       "./node_modules/@types",
-      "./src/@types"
+      "./src/@types/global.d.ts"
     ],
     // "allowJs": true,
     "outDir": "./dist",

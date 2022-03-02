@@ -1,25 +1,46 @@
+/* eslint-disable no-underscore-dangle */
+import mongoose from 'mongoose';
 import MongoDBRepository from '../../Repositories/implementation/MongoDBRepository';
+import LogModel from '../../scheema/LogModel';
 
 describe('Repository implementation', () => {
-  // it('Should return true when connected', async () => {
-  //   const mongoRepository = new MongoDBRepository();
-  //   await mongoRepository.handleConnect();
+  beforeAll(async () => {
+    if (!process.env.MONGO_URL) throw new Error('Mongo Server unitialized!');
 
-  //   expect(await mongoRepository.isConnected()).toBe(true);
-  // });
+    await mongoose.connect(process.env.MONGO_URL);
+  });
 
-  // it('Should return false when connected', async () => {
-  //   const mongoRepository = new MongoDBRepository();
+  afterAll(async () => {
+    await mongoose.disconnect();
+  });
 
-  //   await mongoRepository.handleConnect();
-  //   await mongoRepository.handleConnect();
+  afterEach(async () => {
+    await LogModel.deleteMany({});
+  });
 
-  //   expect(await mongoRepository.isConnected()).toBe(false);
-  // });
+  it('Should return true when connected', async () => {
+    const mongoRepository = new MongoDBRepository();
+    await mongoRepository.handleConnect('disconnect');
+    await mongoRepository.handleConnect('connect');
+    // console.log(await mongoRepository.getLogs());
+
+    expect(await mongoRepository.isConnected()).toBe(true);
+  });
+
+  it('Should return false when unconnected', async () => {
+    const mongoRepository = new MongoDBRepository();
+
+    await mongoRepository.handleConnect('connect');
+    await mongoRepository.handleConnect('disconnect');
+
+    expect(await mongoRepository.isConnected()).toBe(false);
+  });
 
   it('Should return empty array when has no logs', async () => {
     const mongoRepository = new MongoDBRepository();
 
-    expect(await mongoRepository.getLogs()).toEqual([]);
+    const logs = await mongoRepository.getLogs();
+
+    expect(logs).toEqual([]);
   });
 });

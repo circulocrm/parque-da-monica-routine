@@ -5,5 +5,5 @@ export interface IReportRepository {
   getLogs(): Promise<ILog[]>;
   addLog(log: ILog): Promise<void>;
   isConnected(): Promise<boolean>;
-  handleConnect(): Promise<void>;
+  handleConnect(type: 'connect' | 'disconnect'): Promise<void>;
 }
