@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import app from './app';
-import MongoDBRepository from './Repositories/implementation/MongoDBRepository';
 
 declare const process: {
   env: {
@@ -14,15 +13,6 @@ require('dotenv').config();
 mongoose.connect(process.env.CONNECTIONSTRING)
   .then(() => {
     app.emit('Conectado');
-    try {
-      const getData = async () => {
-        const test = new MongoDBRepository();
-        console.log(await test.getLogs());
-      }
-      getData()
-    } catch (error) {
-      console.log(error);
-    }
   })
   .catch((e) => console.log(e));
 
