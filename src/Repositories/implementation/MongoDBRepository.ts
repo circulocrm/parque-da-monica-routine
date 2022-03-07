@@ -18,7 +18,6 @@ export default class MongoDBRepository implements IReportRepository {
     };
   }
 
-  // eslint-disable-next-line no-unused-vars
   async handleConnect(type: 'connect' | 'disconnect'): Promise<void> {
     switch (type) {
       case 'connect':
