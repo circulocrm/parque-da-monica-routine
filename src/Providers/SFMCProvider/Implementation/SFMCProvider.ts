@@ -10,9 +10,7 @@ export default class SFMCProvider implements ISFMCProvider {
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
       const { status } = await axios.post(`https://mcv3m3hyqxgpzlvzfp755cxp1250.rest.marketingcloudapis.com/data/v1/async/dataextensions/key:${tableKey}/rows`, {
-        items: [
-          tableData,
-        ],
+        items: tableData,
       });
       if (status === 400) throw new Error('Bad request.');
       return true;

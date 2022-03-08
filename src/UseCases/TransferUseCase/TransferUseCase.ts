@@ -13,18 +13,24 @@ export default class TransferDataUseCase {
   ) { }
 
   async execute() {
-    // try {
-    const data = await this.dataProvider.getData('catraca');
+    try {
+      const data = await this.dataProvider.getData('clients');
 
-    this.sfmcProvider.addToTable(data.tableName, data.tableData);
-    this.reportRepository.addLog({
-      connected: true,
-      text: 'Transfêrencia de dados. Tabela catraca',
-      date: new Date().toISOString(),
-    });
-
-    // } catch (error) {
-
-    // }
+      if (await this.sfmcProvider.addToTable(data.tableName, data.tableData)) {
+        await this.reportRepository.addLog({
+          connected: true,
+          text: 'Dados transferidos com sucesso. Tabela cliente',
+          date: new Date().toISOString(),
+        });
+      } else {
+        await this.reportRepository.addLog({
+          connected: true,
+          text: 'Falha na transfêrencia de dados. Tabela cliente',
+          date: new Date().toISOString(),
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
