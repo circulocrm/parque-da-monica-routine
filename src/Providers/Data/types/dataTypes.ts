@@ -1,4 +1,4 @@
-export type DataTypes = 'clients' | 'catraca' | 'venda';
+export type DataTypes = 'clients' | 'catraca' | 'venda' | 'outro';
 type ClientsTableData = {};
 type CatracaTableData = {};
 type VendaTableData = {};
