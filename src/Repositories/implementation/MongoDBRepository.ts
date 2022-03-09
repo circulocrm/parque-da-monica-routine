@@ -14,6 +14,8 @@ export default class MongoDBRepository implements IReportRepository {
     return log || {
       connected: false,
       text: 'Servidor VPN desconectado',
+      table: 'Initializing',
+      success: false,
       date: new Date().toISOString(),
     };
   }
@@ -24,6 +26,8 @@ export default class MongoDBRepository implements IReportRepository {
         await this.addLog({
           connected: true,
           text: 'Servidor VPN conectado',
+          success: true,
+          table: 'Initializing',
           date: new Date().toISOString(),
         });
         return;
@@ -31,6 +35,8 @@ export default class MongoDBRepository implements IReportRepository {
       case 'disconnect':
         await this.addLog({
           connected: false,
+          success: true,
+          table: 'Initializing',
           text: 'Servidor VPN desconectado',
           date: new Date().toISOString(),
         })
@@ -39,6 +45,8 @@ export default class MongoDBRepository implements IReportRepository {
       default:
         await this.addLog({
           connected: false,
+          success: true,
+          table: 'Initializing',
           text: 'Servidor VPN desconectado',
           date: new Date().toISOString(),
         });
@@ -47,6 +55,7 @@ export default class MongoDBRepository implements IReportRepository {
 
   async isConnected(): Promise<boolean> {
     const log = await this.getLastLog();
+    console.log(log);
 
     return log.connected;
   }

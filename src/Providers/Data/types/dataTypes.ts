@@ -1,4 +1,4 @@
-export type DataTypes = 'clients' | 'catraca' | 'venda' | 'calendario';
+export type DataTypes = 'clientes' | 'catraca' | 'venda' | 'calendario';
 type ClientsTableData = {
   'id_consulta': number,
   'id_cliente': number,

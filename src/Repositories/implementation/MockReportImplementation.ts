@@ -14,6 +14,8 @@ export default class MockReportImplementation implements IReportRepository {
     this.log = {
       connected: false,
       text: '',
+      success: true,
+      table: '',
       date: new Date().toISOString(),
     };
   }

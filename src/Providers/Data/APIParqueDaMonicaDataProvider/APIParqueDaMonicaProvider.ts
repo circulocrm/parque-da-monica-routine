@@ -16,7 +16,7 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
     this.instance.defaults.headers.common['x-access-token'] = await this.getAuthToken();
 
     switch (dataType) {
-      case 'clients': {
+      case 'clientes': {
         const { data } = await this.instance.post('/clientes', {
           data: '2014-12-22 23:59:59',
         });
