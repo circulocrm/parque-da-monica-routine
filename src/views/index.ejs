@@ -103,6 +103,7 @@
       /* border-radius: 8px; */
       box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
       align-self: stretch;
+      max-height: 85vh;
     }
 
     .logs-container-header {
@@ -153,11 +154,23 @@
       text-align: center;
     }
 
+    .table-container {
+      overflow-y: auto;
+      max-height: 100%;
+      width: 100%;
+    }
+
+    .table-container::-webkit-scrollbar-track {
+      background: #fff;
+    }
+
+    .table-container::-webkit-scrollbar-thumb {
+      background: #5A5766;
+    }
+
     .log-table {
       width: 100%;
       border-spacing: 0 1rem;
-      max-height: 100%;
-      overflow-y: auto;
     }
 
     .log-table th,
@@ -174,6 +187,29 @@
 
     .log-table td {
       border-bottom: 1px solid rgb(217, 217, 217);
+    }
+
+    .log-table-sucess {
+      color: #61E786;
+    }
+
+    .log-table-failure {
+      color: #EF2D56;
+    }
+    .table-header {
+      width: 100%;
+    }
+    .table-header table {
+      border-spacing: 0;
+    }
+    .log-table-origem {
+      width: 15%;
+    }
+    .log-table-text {
+      width: 35%;
+    }
+    .log-table-date, .log-table-sucess {
+      width: 25%;
     }
   </style>
 </head>
@@ -215,7 +251,9 @@
             Ultima transfêrencia
           </span>
         </div>
-        <div class="report-info-body">09/03/2002 11:14</div>
+        <div class="report-info-body">
+          <%= report.lastTransfer %>
+        </div>
       </div>
 
       <div class="report-info transfer-connection">
@@ -250,23 +288,39 @@
         </svg>
         <span class="logs-container-header-text">Logs</span>
       </div>
-      <table class="log-table">
-        <tr>
-          <th>Origem</th>
-          <th>Log</th>
-          <th>Data</th>
-          <th>Situação</th>
-        </tr>
-        <% report.logs.forEach(log=> { %>
-
+      <div class="table-header">
+        <table class="log-table">
           <tr>
-            <td>/<%= log.table %></td>
-            <td><%= log.text %></td>
-            <td><%= log.date %></td>
-            <td><%= log.tabela %></td>
+            <th class="log-table-origem">Origem</th>
+            <th class="log-table-text">Log</th>
+            <th class="log-table-date">Data</th>
+            <th class="log-table-success">Situação</th>
           </tr>
-          <% });%>
-      </table>
+        </table>
+      </div>
+      <div class="table-container">
+        <table class="log-table">
+          <% report.logs.forEach(log=> { %>
+            <tr>
+              <td class="log-table-origem">/<%= log.table %>
+              </td>
+              <td class="log-table-text">
+                <%= log.text %>
+              </td>
+              <td class="log-table-date">
+                <%= new Date(log.date).toLocaleString('pt-BR') %>
+              </td>
+              <td class="log-table-success">
+                <% if(log.success){ %>
+                  <span class="log-table-sucess">Sucesso</span>
+                  <% } else { %>
+                    <span class="log-table-failure">Falha</span>
+                    <% } %>
+              </td>
+            </tr>
+            <% });%>
+        </table>
+      </div>
     </div>
   </section>
 

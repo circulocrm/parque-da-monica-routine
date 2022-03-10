@@ -10,8 +10,8 @@ app.use(express.static(path.resolve(__dirname, 'public')));
 //   await transferDataUseCase.execute();
 // }
 
-app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.set('views', path.resolve(__dirname, 'views'));
 
 app.get('/', (req: Request, res: Response) => viewReportController.handle(req, res));
 
