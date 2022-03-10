@@ -1,8 +1,9 @@
 import axios from 'axios';
 import ISFMCProvider from '..';
+import { DataTypes } from '../../Data/types/dataTypes';
 
 export default class SFMCProvider implements ISFMCProvider {
-  async addToTable(tableKey: string, tableData?: {}): Promise<boolean> {
+  async addToTable(tableKey: DataTypes, tableData?: {}): Promise<boolean> {
     try {
       const token = await this.getToken();
       if (!token) throw new Error('Missing token');
