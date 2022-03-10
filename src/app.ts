@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import viewReportController from './UseCases/ViewReportUseCase/Index';
 // import transferDataUseCase from './UseCases/TransferUseCase';
 const path = require('path');
 
@@ -9,9 +10,9 @@ app.use(express.static(path.resolve(__dirname, 'public')));
 //   await transferDataUseCase.execute();
 // }
 
-app.get('/', (request: Request, response: Response): void => response.render('index'));
-
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+app.get('/', (req: Request, res: Response) => viewReportController.handle(req, res));
 
 export default app;

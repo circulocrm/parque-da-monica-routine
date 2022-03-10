@@ -20,6 +20,10 @@ export default class MockReportImplementation implements IReportRepository {
     };
   }
 
+  async getLastLog(): Promise<ILog> {
+    return this.log
+  }
+
   async handleConnect(): Promise<void> {
     if (this.connected) this.connected = false;
     else this.connected = true;

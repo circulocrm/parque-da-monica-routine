@@ -55,12 +55,9 @@ export default class MongoDBRepository implements IReportRepository {
 
   async isConnected(): Promise<boolean> {
     const log = await this.getLastLog();
-    console.log(log);
-
     return log.connected;
   }
 
-  // eslint-disable-next-line no-unused-vars
   async addLog(log: ILog): Promise<void> {
     await LogModel.create(log)
   }
