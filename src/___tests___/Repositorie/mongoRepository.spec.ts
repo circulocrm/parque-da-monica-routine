@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import mongoose from 'mongoose';
-import MongoDBRepository from '../../Repositories/implementation/MongoDBRepository';
+import MongoDBRepository from '../../Repositories/Report/implementation/MongoDBReportRepository';
 import LogModel from '../../scheema/LogModel';
 
 describe('Repository implementation', () => {

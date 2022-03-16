@@ -1,5 +1,5 @@
-import ILog from '../../Entities/Log';
-import LogModel from '../../scheema/LogModel';
+import ILog from '../../../Entities/Log';
+import LogModel from '../../../scheema/LogModel';
 import { IReportRepository } from '../ReportRepositorie';
 
 export default class MongoDBRepository implements IReportRepository {

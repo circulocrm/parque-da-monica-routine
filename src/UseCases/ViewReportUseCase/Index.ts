@@ -1,4 +1,4 @@
-import MongoDBRepository from '../../Repositories/implementation/MongoDBRepository';
+import MongoDBRepository from '../../Repositories/Report/implementation/MongoDBReportRepository';
 import ViewReportController from './ViewReportController';
 import ViewReportUseCase from './ViewReportUseCase';
 

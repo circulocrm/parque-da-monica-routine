@@ -1,4 +1,4 @@
-import { IReportRepository } from '../../Repositories/ReportRepositorie';
+import { IReportRepository } from '../../Repositories/Report/ReportRepositorie';
 import { ViewReportDTO } from './ViewReportDTO';
 
 export default class ViewReportUseCase {

@@ -1,4 +1,4 @@
-import ILog from '../Entities/Log';
+import ILog from '../../Entities/Log';
 
 /* eslint-disable no-unused-vars */
 export interface IReportRepository {

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import IDataProvider from '../../Providers/Data/Index';
 import ISFMCProvider from '../../Providers/SFMCProvider';
-import { IReportRepository } from '../../Repositories/ReportRepositorie';
+import { IReportRepository } from '../../Repositories/Report/ReportRepositorie';
 import { DataTypes } from '../../Providers/Data/types/dataTypes';
 
 export default class TransferDataUseCase {
