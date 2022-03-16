@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        *{
+            margin: 0;
+            border: 0;
+            box-sizing: border-box;
+            font-family: 'Lato', sans-serif;
+        }
+
+        body {
+            background: rgb(241, 242, 248);
+        }
+
+        .main{
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-div{
+            width: 300px;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            border-radius: 8px;
+            -webkit-box-shadow: 5px 5px 15px -1px #000000; 
+            box-shadow: 5px 5px 15px -1px #000000;
+        }
+
+        .inpt{
+            padding: 5px;
+            font-size: 16px;
+            border-width: 1px;
+            border-color: #CCCCCC;
+            background-color: #FFFFFF;
+            color: #000000;
+            border-style: solid;
+            border-radius: 8px;
+            box-shadow: 0px 0px 5px rgba(66,66,66,.75);
+        }
+
+        .btn {
+            border-radius: 8px;
+            font-family: Arial;
+            color: #ffffff;
+            font-size: 20px;
+            background: #3498db;
+            padding: 10px 20px 10px 20px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #3cb0fd;
+            text-decoration: none;
+        }   
+    </style>
+</head>
+<body>
+    <section class="main">
+        <div class="login-div">
+            <h2>Logs View Interface</h2>
+                
+                <input class="inpt" type="text" placeholder="Usuario" name="user" required>
+        
+                <input class="inpt" type="password" placeholder="Senha" name="password" required>
+                  
+                <button class="btn" type="submit">Login</button>
+
+        </div>
+    </section>
+</body>
+</html>
