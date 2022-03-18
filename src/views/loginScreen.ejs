@@ -1,85 +1,155 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatorio</title>
+  <style>
+    * {
+      margin: 0;
+      border: 0;
+      box-sizing: border-box;
+      font-family: 'Lato', sans-serif;
+    }
 
-        *{
-            margin: 0;
-            border: 0;
-            box-sizing: border-box;
-            font-family: 'Lato', sans-serif;
-        }
+    body {
+      background: rgb(241, 242, 248);
+    }
 
-        body {
-            background: rgb(241, 242, 248);
-        }
+    .main {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem;
+    }
 
-        .main{
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    .login-div {
+      width: 400px;
+      align-self: stretch;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      border-radius: 8px;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+      padding: 3rem;
+    }
 
-        .login-div{
-            width: 300px;
-            height: 300px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2rem;
-            border-radius: 8px;
-            -webkit-box-shadow: 5px 5px 15px -1px #000000; 
-            box-shadow: 5px 5px 15px -1px #000000;
-        }
+    .inpt {
+      padding: 5px;
+      font-size: 16px;
+      border-width: 1px;
+      border-color: #CCCCCC;
+      background-color: #FFFFFF;
+      color: #000000;
+      border-style: solid;
+      border-radius: 8px;
+      box-shadow: 0px 0px 5px rgba(66, 66, 66, .75);
+    }
 
-        .inpt{
-            padding: 5px;
-            font-size: 16px;
-            border-width: 1px;
-            border-color: #CCCCCC;
-            background-color: #FFFFFF;
-            color: #000000;
-            border-style: solid;
-            border-radius: 8px;
-            box-shadow: 0px 0px 5px rgba(66,66,66,.75);
-        }
+    .btn {
+      border-radius: 8px;
+      font-family: Arial;
+      color: #ffffff;
+      font-size: 20px;
+      background: #3498db;
+      padding: 10px 20px 10px 20px;
+      text-decoration: none;
+      cursor: pointer;
+    }
 
-        .btn {
-            border-radius: 8px;
-            font-family: Arial;
-            color: #ffffff;
-            font-size: 20px;
-            background: #3498db;
-            padding: 10px 20px 10px 20px;
-            text-decoration: none;
-            cursor: pointer;
-        }
+    .btn:hover {
+      background: #3cb0fd;
+      text-decoration: none;
+    }
 
-        .btn:hover {
-            background: #3cb0fd;
-            text-decoration: none;
-        }   
-    </style>
+    .input-container {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      position: relative;
+    }
+
+    .input-container input{
+      width: 100%;
+      align-self: stretch;
+      padding: .8rem .5rem .5rem;
+      border: 0;
+    }
+
+    .input-container input:focus{
+      outline: none;
+    }
+
+    /* .input-container input:focus ~ label{
+     
+    } */
+
+    .animate {
+      top: -20%;
+      font-size: 14px;
+    }
+
+    .input-container label {
+      position: absolute;
+      left: 10px;
+      top: 26%;
+      transition: all .2s ease-in-out;
+      color: #808080;
+    }
+  </style>
 </head>
-<body>
-    <section class="main">
-        <div class="login-div">
-            <h2>Logs View Interface</h2>
-                
-                <input class="inpt" type="text" placeholder="Usuario" name="user" required>
-        
-                <input class="inpt" type="password" placeholder="Senha" name="password" required>
-                  
-                <button class="btn" type="submit">Login</button>
 
-        </div>
-    </section>
+<body>
+  <section class="main">
+    <div class="login-div">
+      <h2>Logs View Interface</h2>
+
+      <!-- <input class="inpt" type="text" placeholder="Usuario" name="user" required>
+
+      <input class="inpt" type="password" placeholder="Senha" name="password" required>
+ -->
+      <div class="input-container">
+        <input type="email">
+        <label for="">
+          E-mail
+        </label>
+      </div>
+
+      <div class="input-container">
+        <input id="password-input" type="password" onchange="teste()">
+        <label for="">
+          Senha
+        </label>
+      </div>
+
+
+      <button class="btn" type="submit">Login</button>
+
+    </div>
+  </section>
+
+  <script>
+    const passwordInput = document.querySelector('#password-input');
+    console.log(passwordInput);
+    
+    teste = (e) => {
+      console.log(1);
+    }
+
+    if(passwordInput.value) {
+      console.log(1);
+      passwordInput.nextElementSibling.classList.add('animate')
+    }
+
+  </script>
 </body>
+
 </html>
