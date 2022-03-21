@@ -133,7 +133,55 @@
       top: -20%;
       font-size: 14px;
     }
-  </style>
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .logo .logo-text {
+      font-size: 2rem;
+      color: #fff;
+    }
+
+    .logo .logo-img-text {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding-top: 10px;
+      color: #fff;
+    }
+
+    @media (max-width: 900px) {
+      .main-text {
+        display: none;
+      }
+    }
+
+    .errors {
+      color: red;
+      font-size: 1.2rem;
+      animation: error 1s ease forwards;
+    }
+
+    @keyframes error {
+      25% {
+        transform: translateX(-5px);
+      }
+      50% {
+        transform: translateX(5px);
+      }
+      75% {
+        transform: translateX(-5px);
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
+ </style>
 </head>
 
 <body>
@@ -146,9 +194,21 @@
     </div>
     <div class="login-div-wrapper">
       <div class="login-div">
+
+        <div class="logo">
+          <div class="logo-text">CÍRCULO</div>
+          <div class="logo-img-text">
+            <img src="https://www.circulocrm.com.br/static/8dc455e1074fc39808bc5dbdc851cf40/ad39b/logo-min.png" alt="">
+            <span>
+              crm
+            </span>
+          </div>
+        </div>
+
         <div class="errors">
           Credenciais inválidas
         </div>
+
 
         <div class="input-container">
           <input class="animate-input" type="email">
