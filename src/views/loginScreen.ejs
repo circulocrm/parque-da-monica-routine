@@ -171,17 +171,20 @@
       25% {
         transform: translateX(-5px);
       }
+
       50% {
         transform: translateX(5px);
       }
+
       75% {
         transform: translateX(-5px);
       }
+
       100% {
         transform: translateX(0);
       }
     }
- </style>
+  </style>
 </head>
 
 <body>
@@ -192,7 +195,7 @@
       </h1>
       <p> Parque da Mônica. </p>
     </div>
-    <div class="login-div-wrapper">
+    <form method="POST" action="/login-request" class="login-div-wrapper">
       <div class="login-div">
 
         <div class="logo">
@@ -205,30 +208,31 @@
           </div>
         </div>
 
-        <div class="errors">
-          Credenciais inválidas
-        </div>
+        <% if (errors.length> 0) { %>
+          <div class="errors">
+            <%= errors %>
+          </div>
+          <% } %>
 
+            <div class="input-container">
+              <input class="animate-input" name="email" type="email">
+              <label for="">
+                E-mail
+              </label>
+            </div>
 
-        <div class="input-container">
-          <input class="animate-input" type="email">
-          <label for="">
-            E-mail
-          </label>
-        </div>
+            <div class="input-container">
+              <input class="animate-input" name="password" type="password">
+              <label for="">
+                Senha
+              </label>
+            </div>
 
-        <div class="input-container">
-          <input class="animate-input" type="password">
-          <label for="">
-            Senha
-          </label>
-        </div>
-
-        <div class="btn-wrapper">
-          <button class="btn" type="submit">Login</button>
-        </div>
+            <div class="btn-wrapper">
+              <button class="btn" type="submit">Login</button>
+            </div>
       </div>
-    </div>
+    </form>
   </section>
 
   <script>

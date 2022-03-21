@@ -11,7 +11,9 @@ export default class LogUserController {
 
   async handle(req: Request, res: Response): Promise<void> {
     try {
-      const { email, password } = req.body
+      console.log(req.body);
+
+      const { email, password } = req.body;
       const user = await this.logUserUseCase.execute({ email, password });
 
       req.session.user = user;

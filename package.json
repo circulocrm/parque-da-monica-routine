@@ -46,6 +46,7 @@
     "@types/shelljs": "^0.8.11",
     "@types/supertest": "^2.0.11",
     "axios": "^0.26.0",
+    "body-parser": "^1.19.2",
     "cisco-vpn": "^1.0.2",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^4.6.0",

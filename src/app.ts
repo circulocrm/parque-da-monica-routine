@@ -10,12 +10,12 @@ import {
 import globalMiddleware from './Middlewares/globalMiddleware';
 
 require('dotenv').config();
-
+const bodyParser = require('body-parser');
 const path = require('path');
 
 const app = express();
 app.use(express.static(path.resolve(__dirname, 'public')));
-
+app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname, 'views'));
 
