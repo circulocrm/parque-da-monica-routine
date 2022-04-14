@@ -18,21 +18,21 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
     switch (dataType) {
       case 'clientes': {
         const { data } = await this.instance.post('/clientes', {
-          data: '2014-12-22 23:59:59',
+          data: '2020-01-22 23:59:59',
         });
         return new DataObject(dataType, data);
       }
 
       case 'venda': {
         const { data } = await this.instance.post('/vendas', {
-          data: '2014-12-22 23:59:59',
+          data: '2020-01-22 23:59:59',
         });
         return new DataObject(dataType, data);
       }
 
       case 'calendario': {
         const { data } = await this.instance.post('/calendario', {
-          data: '2014-12-22 23:59:59',
+          data: '2020-01-22 23:59:59',
         });
         return new DataObject(dataType, data);
       }

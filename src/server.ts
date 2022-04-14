@@ -1,7 +1,7 @@
-// import axios from 'axios';
 import mongoose from 'mongoose';
 
 import app from './app';
+import transferDataUseCase from './UseCases/TransferUseCase';
 
 require('dotenv').config();
 
@@ -19,5 +19,8 @@ mongoose.connect(process.env.CONNECTIONSTRING)
   .catch((e) => console.log(e));
 
 app.on('Conectado', () => {
-  app.listen(process.env.PORT || 3333, () => console.log('http://localhost:3333'));
+  app.listen(process.env.PORT || 3333, async () => {
+    console.log('http://localhost:3333')
+    await transferDataUseCase.execute();
+  });
 });

@@ -17,7 +17,7 @@ export default class ViewReportUseCase {
     return {
       connected,
       lastTransfer: new Date(date).toLocaleString('pt-BR'),
-      logs: logs.reverse(),
+      logs,
     };
   }
 }
