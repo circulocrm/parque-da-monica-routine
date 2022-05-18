@@ -1,20 +1,27 @@
 import axios from 'axios';
 import ISFMCProvider from '..';
-import { DataTypes } from '../../Data/types/dataTypes';
+import { DataTypes, TablesData } from '../../Data/types/dataTypes';
 
 export default class SFMCProvider implements ISFMCProvider {
-  // eslint-disable-next-line no-unused-vars
-  async addToTable(tableKey: DataTypes, tableData?: {}): Promise<boolean> {
-    try {
-      const token = await this.getToken();
-      if (!token) throw new Error('Missing token');
+  private authToken: string;
 
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  constructor() {
+    this.authToken = '';
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  async addToTable(tableKey: DataTypes, tableData: TablesData): Promise<boolean> {
+    try {
+      if (!this.authToken) {
+        this.authToken = await this.getToken();
+      }
+
+      axios.defaults.headers.common.Authorization = `Bearer ${this.authToken}`;
       axios.defaults.maxBodyLength = Infinity;
       axios.defaults.maxContentLength = Infinity;
       axios.defaults.maxRedirects = Infinity;
 
-      this.arrSlice(tableData as [], 5000)
+      this.arrSlice(tableData as [], 10000)
         .forEach(async (data) => {
           await axios.post(`https://mcv3m3hyqxgpzlvzfp755cxp1250.rest.marketingcloudapis.com/data/v1/async/dataextensions/key:${tableKey}/rows`, {
             items: data,
@@ -23,7 +30,7 @@ export default class SFMCProvider implements ISFMCProvider {
 
       return true;
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) console.log('SFMC Provider', error.message);
       return false;
     }
   }
@@ -35,7 +42,7 @@ export default class SFMCProvider implements ISFMCProvider {
       newArr.push(arr.slice(i, i + size));
       i += size;
     }
-    return newArr;
+    return newArr.reverse();
   }
 
   private async getToken(): Promise<string> {

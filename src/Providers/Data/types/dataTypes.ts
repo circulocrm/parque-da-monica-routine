@@ -1,6 +1,6 @@
 export type DataTypes = 'clientes' | 'catraca' | 'venda' | 'calendario';
 
-type ClientsTableData = {
+export type ClientsTableData = {
   'id_consulta': number,
   'id_cliente': number,
   'nome_fantasia': string,
@@ -16,7 +16,7 @@ type ClientsTableData = {
   'data_alteracao': string
 };
 
-type CalendarioTableData = {
+export type CalendarioTableData = {
   'id_consulta': number,
   'id_calendario': number,
   'previcao_visita': number,
@@ -30,7 +30,7 @@ type CalendarioTableData = {
   'data_alteracao': string
 };
 
-type VendaTableData = {
+export type VendaTableData = {
   'id_consulta': number,
   'id_venda': number,
   'pedido': string,
@@ -48,5 +48,7 @@ type VendaTableData = {
   'PASSAPORTE_FULL': string,
   'data_alteracao': string
 };
+
+export type TableDataObj = ClientsTableData | CalendarioTableData | VendaTableData;
 
 export type TablesData = ClientsTableData[] | CalendarioTableData[] | VendaTableData[] | [];

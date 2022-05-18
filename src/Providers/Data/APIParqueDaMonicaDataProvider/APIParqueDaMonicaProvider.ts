@@ -6,10 +6,16 @@ import { DataTypes } from '../types/dataTypes';
 export default class APIParqueDaMonicaDataProvider implements IDataProvider {
   private instance: AxiosInstance;
 
+  private start_date: string;
+
+  private final_date: string;
+
   constructor() {
     this.instance = axios.create({
       baseURL: 'http://192.168.160.12:3050/api/v1/',
-    })
+    });
+    this.start_date = '2018-01-22 23:59:59';
+    this.final_date = '2022-18-05 23:59:59';
   }
 
   async getData(dataType: DataTypes): Promise<DataObject> {
@@ -18,21 +24,34 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
     switch (dataType) {
       case 'clientes': {
         const { data } = await this.instance.post('/clientes', {
-          data: '2020-01-22 23:59:59',
+          consulta: '',
+          data: this.start_date,
+          datafinal: this.final_date,
         });
         return new DataObject(dataType, data);
       }
 
       case 'venda': {
         const { data } = await this.instance.post('/vendas', {
-          data: '2020-01-22 23:59:59',
+          consulta: '',
+          data: this.start_date,
         });
         return new DataObject(dataType, data);
       }
 
       case 'calendario': {
         const { data } = await this.instance.post('/calendario', {
-          data: '2020-01-22 23:59:59',
+          consulta: '',
+          data: this.start_date,
+        });
+        return new DataObject(dataType, data);
+      }
+
+      case 'catraca': {
+        const { data } = await this.instance.post('/catraca', {
+          consulta: '',
+          data: this.start_date,
+          datafinal: this.final_date,
         });
         return new DataObject(dataType, data);
       }
