@@ -7,7 +7,7 @@ const transferDataUseCase = new TransferDataUseCase(
   new SFMCProvider(),
   new MongoDBRepository(),
   new APIParqueDaMonicaDataProvider(),
-  ['clientes'],
+  ['clientes', 'calendario', 'venda'],
 );
 
 export default transferDataUseCase;

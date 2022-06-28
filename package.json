@@ -11,7 +11,7 @@
     "tsc": "tsc",
     "build": "npm-run-all tsc copy-assets",
     "dev:start": "npm-run-all build start",
-    "devStart": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
+    "devstart": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
     "copy-assets": "ts-node tools/copyAssets"
   },
   "devDependencies": {

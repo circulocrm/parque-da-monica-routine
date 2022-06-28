@@ -21,16 +21,13 @@ export default class SFMCProvider implements ISFMCProvider {
       axios.defaults.maxContentLength = Infinity;
       axios.defaults.maxRedirects = Infinity;
 
-      this.arrSlice(tableData as [], 10000)
-        .forEach(async (data) => {
-          await axios.post(`https://mcv3m3hyqxgpzlvzfp755cxp1250.rest.marketingcloudapis.com/data/v1/async/dataextensions/key:${tableKey}/rows`, {
-            items: data,
-          });
-        });
+      await axios.post(`https://mcv3m3hyqxgpzlvzfp755cxp1250.rest.marketingcloudapis.com/data/v1/async/dataextensions/key:${tableKey}/rows`, {
+        items: tableData,
+      });
 
       return true;
     } catch (error) {
-      if (error instanceof Error) console.log('SFMC Provider', error.message);
+      if (error instanceof Error) console.log('SFMC Provider', tableKey, error.message);
       return false;
     }
   }
