@@ -21,13 +21,15 @@ export default class SFMCProvider implements ISFMCProvider {
       axios.defaults.maxContentLength = Infinity;
       axios.defaults.maxRedirects = Infinity;
 
-      await axios.post(`https://mcv3m3hyqxgpzlvzfp755cxp1250.rest.marketingcloudapis.com/data/v1/async/dataextensions/key:${tableKey}/rows`, {
-        items: tableData,
+      this.arrSlice(tableData as [], 10000).map(async (result) => {
+        await axios.post(`https://mcv3m3hyqxgpzlvzfp755cxp1250.rest.marketingcloudapis.com/data/v1/async/dataextensions/key:${tableKey}/rows`, {
+          items: result,
+        });
       });
 
       return true;
     } catch (error) {
-      if (error instanceof Error) console.log('SFMC Provider', tableKey, error.message);
+      if (error instanceof Error) console.log('SFMC Provider', tableKey, error);
       return false;
     }
   }
@@ -39,7 +41,7 @@ export default class SFMCProvider implements ISFMCProvider {
       newArr.push(arr.slice(i, i + size));
       i += size;
     }
-    return newArr.reverse();
+    return newArr;
   }
 
   private async getToken(): Promise<string> {

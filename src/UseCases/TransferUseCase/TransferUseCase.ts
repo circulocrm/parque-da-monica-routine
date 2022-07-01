@@ -37,7 +37,7 @@ export default class TransferDataUseCase {
           });
         }
       } catch (error) {
-        if (error instanceof Error) console.log('Transfer use case Provider', tableName, error.message);
+        if (error instanceof Error) console.log('Transfer use case Provider', tableName, error);
       }
     });
   }

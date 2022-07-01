@@ -8,25 +8,23 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
 
   private start_date: string;
 
-  private final_date: string;
-
   constructor() {
     this.instance = axios.create({
       baseURL: 'http://192.168.160.12:3050/api/v1/',
     });
-    this.start_date = '2022-06-22 23:59:59';
-    this.final_date = '2022-06-26 23:59:59';
+    this.start_date = '2022-06-25 23:59:59';
   }
 
   async getData(dataType: DataTypes): Promise<DataObject> {
     this.instance.defaults.headers.common['x-access-token'] = await this.getAuthToken();
+    const finalDate = this.getDate();
 
     switch (dataType) {
       case 'clientes': {
         const { data } = await this.instance.post('/clientes', {
           consulta: '',
           data: this.start_date,
-          datafinal: this.final_date,
+          datafinal: finalDate,
         });
         return new DataObject(dataType, data);
       }
@@ -43,6 +41,7 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
         const { data } = await this.instance.post('/calendario', {
           consulta: '',
           data: this.start_date,
+          datafinal: finalDate,
         });
         return new DataObject(dataType, data);
       }
@@ -51,7 +50,6 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
         const { data } = await this.instance.post('/catraca', {
           consulta: '',
           data: this.start_date,
-          datafinal: this.final_date,
         });
         return new DataObject(dataType, data);
       }
@@ -59,6 +57,25 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
       default:
         return new DataObject('', []);
     }
+  }
+
+  private getDate(): string {
+    function padTo2Digits(num: Number) {
+      return num.toString().padStart(2, '0');
+    }
+
+    return (
+      `${[
+        new Date().getFullYear(),
+        padTo2Digits(new Date().getMonth() + 1),
+        padTo2Digits(new Date().getDate()),
+      ].join('-')
+      } ${[
+        padTo2Digits(new Date().getHours()),
+        padTo2Digits(new Date().getMinutes()),
+        padTo2Digits(new Date().getSeconds()),
+      ].join(':')}`
+    );
   }
 
   private async getAuthToken(): Promise<string> {
