@@ -1,22 +1,14 @@
 import axios from 'axios';
 import ISFMCProvider from '..';
+import ILog from '../../../Entities/Log';
 import { DataTypes, TablesData } from '../../Data/types/dataTypes';
 
 export default class SFMCProvider implements ISFMCProvider {
-  private authToken: string;
-
-  constructor() {
-    this.authToken = '';
-  }
-
-  // eslint-disable-next-line no-unused-vars
-  async addToTable(tableKey: DataTypes, tableData: TablesData): Promise<boolean> {
+  async addToTable(tableKey: DataTypes, tableData: TablesData): Promise<ILog> {
     try {
-      if (!this.authToken) {
-        this.authToken = await this.getToken();
-      }
+      const token = await this.getToken();
 
-      axios.defaults.headers.common.Authorization = `Bearer ${this.authToken}`;
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
       axios.defaults.maxBodyLength = Infinity;
       axios.defaults.maxContentLength = Infinity;
       axios.defaults.maxRedirects = Infinity;
@@ -27,10 +19,30 @@ export default class SFMCProvider implements ISFMCProvider {
         });
       });
 
-      return true;
+      return {
+        connected: true,
+        text: 'Dados transferidos com sucesso.',
+        table: tableKey,
+        success: true,
+        date: new Date().toISOString(),
+      };
     } catch (error) {
-      if (error instanceof Error) console.log('SFMC Provider', tableKey, error);
-      return false;
+      if (error instanceof Error) {
+        return {
+          connected: true,
+          text: `SFMC Provider' ${error.message}`,
+          table: tableKey,
+          success: false,
+          date: new Date().toISOString(),
+        };
+      }
+      return {
+        connected: true,
+        text: 'SFMC Provider, Erro inesperado',
+        table: tableKey,
+        success: false,
+        date: new Date().toISOString(),
+      };
     }
   }
 

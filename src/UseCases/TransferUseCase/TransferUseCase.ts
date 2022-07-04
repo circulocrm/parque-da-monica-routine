@@ -18,26 +18,18 @@ export default class TransferDataUseCase {
     this.tables.forEach(async (tableName) => {
       try {
         const data = await this.dataProvider.getData(tableName);
-
-        if (await this.sfmcProvider.addToTable(data.tableName, data.tableData)) {
+        const result = await this.sfmcProvider.addToTable(data.tableName, data.tableData);
+        await this.reportRepository.addLog(result);
+      } catch (error) {
+        if (error instanceof Error) {
           await this.reportRepository.addLog({
             connected: true,
-            text: 'Dados transferidos com sucesso.',
-            table: tableName,
-            success: true,
-            date: new Date().toISOString(),
-          });
-        } else {
-          await this.reportRepository.addLog({
-            connected: true,
-            text: 'Falha na transfêrencia de dados.',
+            text: `Transfer UseCase, ${error.message}`,
             table: tableName,
             success: false,
             date: new Date().toISOString(),
           });
         }
-      } catch (error) {
-        if (error instanceof Error) console.log('Transfer use case Provider', tableName, error);
       }
     });
   }

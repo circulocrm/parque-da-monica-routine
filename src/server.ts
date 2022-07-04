@@ -38,9 +38,9 @@ function formatDate(date: Date) {
 
 const executeAPI = async () => {
   setInterval(async () => {
-    transferDataUseCase.execute();
+    await transferDataUseCase.execute();
     console.log(formatDate(new Date()));
-  }, 1000 * 60 * 60 * 1)
+  }, 1000 * 60 * 60)
 }
 
 app.on('Conectado', () => {

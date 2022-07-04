@@ -12,7 +12,7 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
     this.instance = axios.create({
       baseURL: 'http://192.168.160.12:3050/api/v1/',
     });
-    this.start_date = '2022-06-25 23:59:59';
+    this.start_date = '2022-07-01 23:59:59';
   }
 
   async getData(dataType: DataTypes): Promise<DataObject> {
