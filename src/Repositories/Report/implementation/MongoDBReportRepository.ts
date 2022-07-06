@@ -9,7 +9,7 @@ export default class MongoDBRepository implements IReportRepository {
 
   async getLastLog(): Promise<ILog> {
     const logs = await this.getLogs();
-    const log = logs.slice(-1)[0];
+    const log = logs.slice(1)[0];
 
     return log || {
       connected: false,
