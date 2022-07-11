@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import ISFMCProvider from '..';
 import ILog from '../../../Entities/Log';
 import { DataTypes, TablesData } from '../../Data/types/dataTypes';
@@ -6,15 +6,10 @@ import { DataTypes, TablesData } from '../../Data/types/dataTypes';
 export default class SFMCProvider implements ISFMCProvider {
   async addToTable(tableKey: DataTypes, tableData: TablesData): Promise<ILog> {
     try {
-      const token = await this.getToken();
-
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-      axios.defaults.maxBodyLength = Infinity;
-      axios.defaults.maxContentLength = Infinity;
-      axios.defaults.maxRedirects = Infinity;
+      const instance = await this.getInstance();
 
       this.arrSlice(tableData as [], 10000).map(async (result) => {
-        await axios.post(`https://mcv3m3hyqxgpzlvzfp755cxp1250.rest.marketingcloudapis.com/data/v1/async/dataextensions/key:${tableKey}/rows`, {
+        await instance.post(`data/v1/async/dataextensions/key:${tableKey}/rows`, {
           items: result,
         });
       });
@@ -46,6 +41,18 @@ export default class SFMCProvider implements ISFMCProvider {
     }
   }
 
+  async throwErrorEmail(): Promise<void> {
+    const instance = await this.getInstance();
+    await instance.post('/interaction/v1/events', {
+      ContactKey: 'fellipe.lorram@circulocrm.com.br',
+      EventDefinitionKey: 'APIEvent-1a9a6a98-4ca3-f9cb-6350-69fd90ac29fb',
+      Data: {
+        Email: 'fellipe.lorram@circulocrm.com.br',
+        contactKey: Math.random(),
+      },
+    });
+  }
+
   private arrSlice(arr: [], size: number): never[][] {
     const newArr = [];
     let i = 0;
@@ -54,6 +61,21 @@ export default class SFMCProvider implements ISFMCProvider {
       i += size;
     }
     return newArr;
+  }
+
+  private async getInstance(): Promise<AxiosInstance> {
+    const token = await this.getToken();
+
+    const instance = axios.create({
+      baseURL: 'https://mcv3m3hyqxgpzlvzfp755cxp1250.rest.marketingcloudapis.com',
+      maxBodyLength: Infinity,
+      maxRedirects: Infinity,
+      maxContentLength: Infinity,
+    });
+
+    instance.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+    return instance;
   }
 
   private async getToken(): Promise<string> {

@@ -22,6 +22,10 @@ export default class TransferDataUseCase {
         await this.reportRepository.addLog(result);
       } catch (error) {
         if (error instanceof Error) {
+          if (error.message === 'connect ETIMEDOUT 192.168.160.12:3050') {
+            await this.sfmcProvider.throwErrorEmail();
+          }
+
           await this.reportRepository.addLog({
             connected: true,
             text: `Transfer UseCase, ${error.message}`,
