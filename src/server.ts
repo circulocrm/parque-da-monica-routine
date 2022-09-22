@@ -18,9 +18,8 @@ mongoose.connect(process.env.CONNECTIONSTRING)
   .catch((e) => console.log(e));
 
 const executeAPI = async () => {
-  setInterval(async () => {
-    await transferDataUseCase.execute();
-  }, 1000 * 60 * 60)
+  await transferDataUseCase.execute();
+  setInterval(async () => { await transferDataUseCase.execute(); }, 1000 * 60 * 60 * 24)
 }
 
 app.on('Conectado', () => {
