@@ -1,4 +1,4 @@
-export type DataTypes = 'clientes' | 'catraca' | 'venda' | 'calendario';
+export type DataTypes = 'clientes-HelloPark' | 'catraca-HelloPark' | 'Vendas-HelloPark' | 'clientes' | 'venda' | 'catraca' | 'calendario' | '';
 
 export type ClientsTableData = {
   'id_consulta': number,
@@ -13,6 +13,26 @@ export type ClientsTableData = {
   'newsletter': number,
   'id_regiao': string,
   'regiao': string,
+  'data_alteracao': string
+};
+
+export type CatracaTableData = {
+  'id_consulta': number,
+  'id_venda': number,
+  'pedido': string,
+  'origem': string,
+  'status_venda': string,
+  'data_venda': string,
+  'data_cancelamento': string,
+  'id_cupom': string,
+  'id_cliente': number,
+  'id_produto': string,
+  'produto': string,
+  'valor_total': number,
+  'valor_preco_base': number,
+  'valor_unitario': number,
+  'id_empresa': string,
+  'PASSAPORTE_FULL': string,
   'data_alteracao': string
 };
 
@@ -47,6 +67,7 @@ export type VendaTableData = {
   'valor_unitario': number,
   'PASSAPORTE_FULL': string,
   'data_alteracao': string
+  'id_empresa': string
 };
 
 export type TableDataObj = ClientsTableData | CalendarioTableData | VendaTableData;

@@ -18,8 +18,11 @@ export default class TransferDataUseCase {
     this.tables.forEach(async (tableName) => {
       try {
         const data = await this.dataProvider.getData(tableName);
-        const result = await this.sfmcProvider.addToTable(data.tableName, data.tableData);
-        await this.reportRepository.addLog(result);
+
+        data.tableData.forEach(async (obj) => {
+          const result = await this.sfmcProvider.addToTable(obj.tableName, obj.tableData);
+          await this.reportRepository.addLog(result);
+        })
       } catch (error) {
         if (error instanceof Error) {
           if (error.message === 'connect ETIMEDOUT 192.168.160.12:3050') {

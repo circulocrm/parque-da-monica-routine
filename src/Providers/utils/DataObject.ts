@@ -1,15 +1,22 @@
 /* eslint-disable no-unused-vars */
-import { ClientsTableData, TablesData } from '../Data/types/dataTypes';
+import {
+  ClientsTableData, DataTypes, TablesData, VendaTableData, CatracaTableData,
+} from '../Data/types/dataTypes';
+
+type dataObjectArr = {
+  tableName: DataTypes;
+  tableData: TablesData;
+}
 
 export default class DataObject {
   // eslint-disable-next-line no-useless-constructor
   constructor(
-    protected TableName: 'clientes' | 'venda' | 'catraca' | 'calendario' | '',
+    protected TableName: DataTypes,
     protected TableData: TablesData,
     // eslint-disable-next-line no-empty-function
   ) { }
 
-  private handleClientRegisterTypes(value: ClientsTableData) {
+  private handleClientsData(): dataObjectArr[] {
     const blockedRegisterTypes = [
       'FORNECEDOR',
       'REPRESENTANTES',
@@ -24,18 +31,90 @@ export default class DataObject {
       'ESCOLA PUBLICA',
     ];
 
-    return !blockedRegisterTypes.includes(value.tipo_cadastro)
+    const tableData = this.TableData as ClientsTableData[];
+
+    const helloParkData: ClientsTableData[] = [];
+    const pmData: ClientsTableData[] = [];
+
+    tableData.forEach((data) => {
+      if (blockedRegisterTypes.includes(data.tipo_cadastro)) return
+
+      if (
+        data.id_tipo_cadastro === 32 || data.id_tipo_cadastro === 33 || data.id_tipo_cadastro === 34
+      ) {
+        helloParkData.push(data)
+      } else {
+        pmData.push(data)
+      }
+    })
+
+    return [
+      { tableName: 'clientes-HelloPark', tableData: helloParkData },
+      { tableName: 'clientes', tableData: pmData },
+    ]
+  }
+
+  private handleVendasData(): dataObjectArr[] {
+    const tableData = this.TableData as VendaTableData[];
+
+    const helloParkData: VendaTableData[] = [];
+    const pmData: VendaTableData[] = [];
+
+    tableData.forEach((data) => {
+      if (
+        data.id_empresa.trim() === '03'
+      ) {
+        helloParkData.push(data)
+      } else {
+        pmData.push(data)
+      }
+    })
+
+    return [
+      { tableName: 'Vendas-HelloPark', tableData: helloParkData },
+      { tableName: 'venda', tableData: pmData },
+    ]
+  }
+
+  private handleCatracaData(): dataObjectArr[] {
+    const tableData = this.TableData as CatracaTableData[];
+
+    const helloParkData: CatracaTableData[] = [];
+    const pmData: CatracaTableData[] = [];
+
+    tableData.forEach((data) => {
+      if (
+        data.id_empresa.trim() === '03'
+      ) {
+        helloParkData.push(data)
+      } else {
+        pmData.push(data)
+      }
+    })
+
+    return [
+      { tableName: 'catraca-HelloPark', tableData: helloParkData },
+      { tableName: 'catraca', tableData: pmData },
+    ]
   }
 
   get tableName(): string {
     return this.TableName;
   }
 
-  get tableData(): TablesData {
+  get tableData(): dataObjectArr[] {
     if (this.tableName === 'clientes') {
-      const tableData = this.TableData as ClientsTableData[]
-      return tableData.filter(this.handleClientRegisterTypes)
+      return this.handleClientsData();
     }
-    return this.TableData;
+    if (this.tableName === 'venda') {
+      return this.handleVendasData();
+    }
+    if (this.tableName === 'catraca') {
+      return this.handleCatracaData();
+    }
+
+    return [
+      { tableName: 'calendario', tableData: this.TableData },
+    ]
   }
 }
