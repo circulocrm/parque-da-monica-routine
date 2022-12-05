@@ -12,11 +12,12 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
     this.instance = axios.create({
       baseURL: 'http://192.168.160.12:3050/api/v1/',
     });
-    this.start_date = '2022-10-20 23:59:59';
+    this.start_date = '2022-11-08 23:59:59';
   }
 
   async getData(dataType: DataTypes): Promise<DataObject> {
     this.instance.defaults.headers.common['x-access-token'] = await this.getAuthToken();
+    // const finalDate = '2022-11-09 23:59:59';
     const finalDate = this.getDate();
 
     switch (dataType) {
@@ -65,18 +66,15 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
       return num.toString().padStart(2, '0');
     }
 
-    return (
-      `${[
-        new Date().getFullYear(),
-        padTo2Digits(new Date().getMonth() + 1),
-        padTo2Digits(new Date().getDate()),
-      ].join('-')
-      } ${[
-        padTo2Digits(new Date().getHours()),
-        padTo2Digits(new Date().getMinutes()),
-        padTo2Digits(new Date().getSeconds()),
-      ].join(':')}`
-    );
+    return `${[
+      new Date().getFullYear(),
+      padTo2Digits(new Date().getMonth() + 1),
+      padTo2Digits(new Date().getDate()),
+    ].join('-')} ${[
+      padTo2Digits(new Date().getHours()),
+      padTo2Digits(new Date().getMinutes()),
+      padTo2Digits(new Date().getSeconds()),
+    ].join(':')}`;
   }
 
   private async getAuthToken(): Promise<string> {
