@@ -1,20 +1,28 @@
 /* eslint-disable no-unused-vars */
 import {
-  ClientsTableData, DataTypes, TablesData, VendaTableData, CatracaTableData,
+  ClientsTableData,
+  DataTypes,
+  TablesData,
+  VendaTableData,
+  CatracaTableData,
+  ContatoTableData,
 } from '../Data/types/dataTypes';
 
 type dataObjectArr = {
   tableName: DataTypes;
   tableData: TablesData;
-}
+};
 
 export default class DataObject {
   // eslint-disable-next-line no-useless-constructor
   constructor(
     protected TableName: DataTypes,
-    protected TableData: TablesData,
-    // eslint-disable-next-line no-empty-function
-  ) { }
+    protected TableData: TablesData, // eslint-disable-next-line no-empty-function, brace-style
+  ) {}
+
+  get tableName(): string {
+    return this.TableName;
+  }
 
   private handleClientsData(): dataObjectArr[] {
     const blockedRegisterTypes = [
@@ -37,21 +45,23 @@ export default class DataObject {
     const pmData: ClientsTableData[] = [];
 
     tableData.forEach((data) => {
-      if (blockedRegisterTypes.includes(data.tipo_cadastro)) return
+      if (blockedRegisterTypes.includes(data.tipo_cadastro)) return;
 
       if (
-        data.id_tipo_cadastro === 32 || data.id_tipo_cadastro === 33 || data.id_tipo_cadastro === 34
+        data.id_tipo_cadastro === 32
+        || data.id_tipo_cadastro === 33
+        || data.id_tipo_cadastro === 34
       ) {
-        helloParkData.push(data)
+        helloParkData.push(data);
       } else {
-        pmData.push(data)
+        pmData.push(data);
       }
-    })
+    });
 
     return [
       { tableName: 'clientes-HelloPark', tableData: helloParkData },
       { tableName: 'clientes', tableData: pmData },
-    ]
+    ];
   }
 
   private handleVendasData(): dataObjectArr[] {
@@ -61,19 +71,17 @@ export default class DataObject {
     const pmData: VendaTableData[] = [];
 
     tableData.forEach((data) => {
-      if (
-        data.id_empresa.trim() === '03'
-      ) {
-        helloParkData.push(data)
+      if (data.id_empresa.trim() === '03') {
+        helloParkData.push(data);
       } else {
-        pmData.push(data)
+        pmData.push(data);
       }
-    })
+    });
 
     return [
       { tableName: 'Vendas-HelloPark', tableData: helloParkData },
       { tableName: 'venda', tableData: pmData },
-    ]
+    ];
   }
 
   private handleCatracaData(): dataObjectArr[] {
@@ -83,23 +91,33 @@ export default class DataObject {
     const pmData: CatracaTableData[] = [];
 
     tableData.forEach((data) => {
-      if (
-        data.id_empresa.trim() === '03'
-      ) {
-        helloParkData.push(data)
+      if (data.id_empresa.trim() === '03') {
+        helloParkData.push(data);
       } else {
-        pmData.push(data)
+        pmData.push(data);
       }
-    })
+    });
 
     return [
       { tableName: 'catraca-HelloPark', tableData: helloParkData },
       { tableName: 'catraca', tableData: pmData },
-    ]
+    ];
   }
 
-  get tableName(): string {
-    return this.TableName;
+  private handleContatosData(): dataObjectArr[] {
+    const tableData = this.TableData as ContatoTableData[];
+
+    const helloParkData: ContatoTableData[] = [];
+    const pmData: ContatoTableData[] = [];
+
+    tableData.forEach((data) => {
+      pmData.push(data);
+    });
+
+    return [
+      { tableName: 'contatos-HelloPark', tableData: helloParkData },
+      { tableName: 'contatos', tableData: pmData },
+    ];
   }
 
   get tableData(): dataObjectArr[] {
@@ -112,9 +130,10 @@ export default class DataObject {
     if (this.tableName === 'catraca') {
       return this.handleCatracaData();
     }
+    if (this.tableName === 'contatos') {
+      return this.handleContatosData();
+    }
 
-    return [
-      { tableName: 'calendario', tableData: this.TableData },
-    ]
+    return [{ tableName: 'calendario', tableData: this.TableData }];
   }
 }

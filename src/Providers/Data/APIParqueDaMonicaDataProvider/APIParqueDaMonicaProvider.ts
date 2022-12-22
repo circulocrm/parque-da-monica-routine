@@ -22,7 +22,7 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
 
     switch (dataType) {
       case 'clientes': {
-        const { data } = await this.instance.post('/clientes', {
+        const { data } = await this.instance.post('/cliente', {
           consulta: '',
           data: this.start_date,
           datafinal: finalDate,
@@ -52,6 +52,15 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
         const { data } = await this.instance.post('/catraca', {
           consulta: '',
           data: this.start_date,
+        });
+        return new DataObject(dataType, data);
+      }
+
+      case 'contatos': {
+        const { data } = await this.instance.post('/contatos', {
+          consulta: '',
+          data: this.start_date,
+          datafinal: finalDate,
         });
         return new DataObject(dataType, data);
       }
