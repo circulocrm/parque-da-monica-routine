@@ -19,6 +19,8 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
       endDate,
     } = this.getDate();
 
+    console.log(startDate, endDate)
+
     switch (dataType) {
       case 'clientes': {
         const { data } = await this.instance.post('/cliente', {
@@ -32,8 +34,8 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
       case 'venda': {
         const { data } = await this.instance.post('/vendas', {
           consulta: '',
-          data: startDate,
-          datafinal: endDate,
+          data: '2023-01-01 03:00:00',
+          datafinal: '2023-01-02 02:59:59',
         });
         return new DataObject(dataType, data);
       }
@@ -75,11 +77,11 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
     } {
     const currentDate = new Date();
 
-    const previousDay = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000);
+    const previousDay = new Date(currentDate.getTime() - 48 * 60 * 60 * 1000);
 
     const startDate = new Date(previousDay).setHours(0, 0, 0, 0);
 
-    const endDate = new Date(previousDay).setHours(23, 59, 59, 999);
+    const endDate = new Date(previousDay).setHours(20, 59, 59, 999);
 
     const s = new Date(startDate).toISOString().substring(0, 19).split('T')
     const e = new Date(endDate).toISOString().substring(0, 19).split('T')
