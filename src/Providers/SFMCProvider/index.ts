@@ -1,7 +1,13 @@
+/* eslint-disable no-unused-vars */
 import ILog from '../../Entities/Log';
 
+export type throwErrorEmailProps = {
+  error: string;
+  tableName: string;
+  date: string;
+}
+
 export default interface ISFMCProvider {
-  // eslint-disable-next-line no-unused-vars
   addToTable(tableKey: string, tableData?: {}): Promise<ILog>;
-  throwErrorEmail(): Promise<void>;
+  throwErrorEmail(props: throwErrorEmailProps): Promise<void>;
 }

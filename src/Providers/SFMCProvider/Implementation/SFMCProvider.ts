@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import ISFMCProvider from '..';
+import ISFMCProvider, { throwErrorEmailProps } from '..';
 import ILog from '../../../Entities/Log';
 import { DataTypes, TablesData } from '../../Data/types/dataTypes';
 
@@ -9,9 +9,12 @@ export default class SFMCProvider implements ISFMCProvider {
       const instance = await this.getInstance();
 
       this.arrSlice(tableData as [], 10000).map(async (result) => {
-        await instance.post(`data/v1/async/dataextensions/key:${tableKey}/rows`, {
-          items: result,
-        });
+        await instance.post(
+          `data/v1/async/dataextensions/key:${tableKey}/rows`,
+          {
+            items: result,
+          },
+        );
       });
 
       return {
@@ -41,7 +44,11 @@ export default class SFMCProvider implements ISFMCProvider {
     }
   }
 
-  async throwErrorEmail(): Promise<void> {
+  async throwErrorEmail({
+    date,
+    error,
+    tableName,
+  }: throwErrorEmailProps): Promise<void> {
     const instance = await this.getInstance();
     await instance.post('/interaction/v1/events', {
       ContactKey: 'fellipe.lorram@circulocrm.com.br',
@@ -49,6 +56,20 @@ export default class SFMCProvider implements ISFMCProvider {
       Data: {
         Email: 'fellipe.lorram@circulocrm.com.br',
         contactKey: Math.random(),
+        error,
+        date,
+        tableName,
+      },
+    });
+    await instance.post('/interaction/v1/events', {
+      ContactKey: 'luis@circulocrm.com.br',
+      EventDefinitionKey: 'APIEvent-1a9a6a98-4ca3-f9cb-6350-69fd90ac29fb',
+      Data: {
+        Email: 'luis@circulocrm.com.br',
+        contactKey: Math.random(),
+        error,
+        date,
+        tableName,
       },
     });
   }
@@ -67,7 +88,8 @@ export default class SFMCProvider implements ISFMCProvider {
     const token = await this.getToken();
 
     const instance = axios.create({
-      baseURL: 'https://mcv3m3hyqxgpzlvzfp755cxp1250.rest.marketingcloudapis.com',
+      baseURL:
+        'https://mcv3m3hyqxgpzlvzfp755cxp1250.rest.marketingcloudapis.com',
       maxBodyLength: Infinity,
       maxRedirects: Infinity,
       maxContentLength: Infinity,
@@ -79,11 +101,14 @@ export default class SFMCProvider implements ISFMCProvider {
   }
 
   private async getToken(): Promise<string> {
-    const { data } = await axios.post('https://mcv3m3hyqxgpzlvzfp755cxp1250.auth.marketingcloudapis.com/v2/token', {
-      grant_type: 'client_credentials',
-      client_id: '1xscr6ywz41wqdrr6yq2oyzg',
-      client_secret: '1CLWxn0V4FrS4M0X0OIQvJZz',
-    });
+    const { data } = await axios.post(
+      'https://mcv3m3hyqxgpzlvzfp755cxp1250.auth.marketingcloudapis.com/v2/token',
+      {
+        grant_type: 'client_credentials',
+        client_id: '1xscr6ywz41wqdrr6yq2oyzg',
+        client_secret: '1CLWxn0V4FrS4M0X0OIQvJZz',
+      },
+    );
 
     return data.access_token;
   }
