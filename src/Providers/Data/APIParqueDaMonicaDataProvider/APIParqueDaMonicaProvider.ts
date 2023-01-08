@@ -31,8 +31,8 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
       case 'venda': {
         const { data } = await this.instance.post('/vendas', {
           consulta: '',
-          data: '2023-01-01 03:00:00',
-          datafinal: '2023-01-02 02:59:59',
+          data: startDate,
+          datafinal: endDate,
         });
         return new DataObject(dataType, data);
       }

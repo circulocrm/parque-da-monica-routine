@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import ISFMCProvider, { throwErrorEmailProps } from '..';
+import ISFMCProvider, { RecordEmailProps, throwErrorEmailProps } from '..';
 import ILog from '../../../Entities/Log';
 import { DataTypes, TablesData } from '../../Data/types/dataTypes';
 
@@ -25,18 +25,11 @@ export default class SFMCProvider implements ISFMCProvider {
         date: new Date().toISOString(),
       };
     } catch (error) {
-      if (error instanceof Error) {
-        return {
-          connected: true,
-          text: `SFMC Provider' ${error.message}`,
-          table: tableKey,
-          success: false,
-          date: new Date().toISOString(),
-        };
-      }
+      const e = error as Error;
+
       return {
         connected: true,
-        text: 'SFMC Provider, Erro inesperado',
+        text: `SFMC Provider, ${e.message}`,
         table: tableKey,
         success: false,
         date: new Date().toISOString(),
@@ -44,11 +37,7 @@ export default class SFMCProvider implements ISFMCProvider {
     }
   }
 
-  async throwErrorEmail({
-    date,
-    error,
-    tableName,
-  }: throwErrorEmailProps): Promise<void> {
+  async throwErrorEmail(props: throwErrorEmailProps): Promise<void> {
     const instance = await this.getInstance();
     await instance.post('/interaction/v1/events', {
       ContactKey: 'fellipe.lorram@circulocrm.com.br',
@@ -56,22 +45,19 @@ export default class SFMCProvider implements ISFMCProvider {
       Data: {
         Email: 'fellipe.lorram@circulocrm.com.br',
         contactKey: Math.random(),
-        error,
-        date,
-        tableName,
+        ...props,
       },
     });
-    await instance.post('/interaction/v1/events', {
-      ContactKey: 'luis@circulocrm.com.br',
-      EventDefinitionKey: 'APIEvent-1a9a6a98-4ca3-f9cb-6350-69fd90ac29fb',
-      Data: {
-        Email: 'luis@circulocrm.com.br',
-        contactKey: Math.random(),
-        error,
-        date,
-        tableName,
+  }
+
+  async addToRecordTable(props: RecordEmailProps): Promise<void> {
+    const instance = await this.getInstance();
+    await instance.put(
+      'data/v1/async/dataextensions/key:report_api/rows',
+      {
+        items: [props],
       },
-    });
+    );
   }
 
   private arrSlice(arr: [], size: number): never[][] {

@@ -5,8 +5,11 @@ import { IReportRepository } from '../../Repositories/Report/ReportRepositorie';
 import { DataTypes } from '../../Providers/Data/types/dataTypes';
 
 type errorProps = Error & {
-  data: {
-    msg: String;
+  response: {
+    data: {
+      msg: string;
+      errorID: string;
+    };
   };
 };
 
@@ -16,9 +19,8 @@ export default class TransferDataUseCase {
     private sfmcProvider: ISFMCProvider,
     private reportRepository: IReportRepository,
     private dataProvider: IDataProvider,
-    private tables: DataTypes[],
-  ) // eslint-disable-next-line no-empty-function, brace-style
-  {}
+    private tables: DataTypes[], // eslint-disable-next-line no-empty-function, brace-style
+  ) {}
 
   async execute() {
     this.tables.forEach(async (tableName) => {
@@ -32,22 +34,15 @@ export default class TransferDataUseCase {
           );
           await this.reportRepository.addLog(result);
         });
+        await this.sfmcProvider.addToRecordTable({
+          date: new Date().toLocaleString('pt-br'),
+          tableName,
+          status: 'sucesso',
+          errorId: '---',
+          message: '---',
+        });
       } catch (error) {
         const e = error as errorProps;
-
-        if (e.message === 'connect ETIMEDOUT 192.168.160.12:3050') {
-          await this.sfmcProvider.throwErrorEmail({
-            date: new Date().toISOString(),
-            error: 'Servidor desconectado da VPN',
-            tableName: '----------------------',
-          });
-        } else {
-          await this.sfmcProvider.throwErrorEmail({
-            date: new Date().toISOString(),
-            error: `${e.message}`,
-            tableName,
-          });
-        }
 
         await this.reportRepository.addLog({
           connected: true,
@@ -55,6 +50,24 @@ export default class TransferDataUseCase {
           table: tableName,
           success: false,
           date: new Date().toISOString(),
+        });
+
+        if (e.message === 'connect ETIMEDOUT 192.168.160.12:3050') {
+          await this.sfmcProvider.throwErrorEmail({
+            date: new Date().toISOString(),
+            error: 'Servidor desconectado da VPN',
+            tableName: '----------------------',
+          });
+
+          return;
+        }
+
+        await this.sfmcProvider.addToRecordTable({
+          date: new Date().toLocaleString('pt-br'),
+          tableName,
+          status: 'erro',
+          errorId: e.response.data.errorID,
+          message: e.response.data.msg,
         });
       }
     });

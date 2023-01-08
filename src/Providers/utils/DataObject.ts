@@ -11,6 +11,7 @@ import {
 type dataObjectArr = {
   tableName: DataTypes;
   tableData: TablesData;
+  report?: boolean;
 };
 
 export default class DataObject {
@@ -60,7 +61,7 @@ export default class DataObject {
 
     return [
       { tableName: 'clientes-HelloPark', tableData: helloParkData },
-      { tableName: 'clientes', tableData: pmData },
+      { tableName: 'clientes', tableData: pmData, report: true },
     ];
   }
 
@@ -80,7 +81,7 @@ export default class DataObject {
 
     return [
       { tableName: 'Vendas-HelloPark', tableData: helloParkData },
-      { tableName: 'venda', tableData: pmData },
+      { tableName: 'venda', tableData: pmData, report: true },
     ];
   }
 
@@ -100,7 +101,7 @@ export default class DataObject {
 
     return [
       { tableName: 'catraca-HelloPark', tableData: helloParkData },
-      { tableName: 'catraca', tableData: pmData },
+      { tableName: 'catraca', tableData: pmData, report: true },
     ];
   }
 
@@ -116,7 +117,7 @@ export default class DataObject {
 
     return [
       { tableName: 'contatos-HelloPark', tableData: helloParkData },
-      { tableName: 'contatos', tableData: pmData },
+      { tableName: 'contatos', tableData: pmData, report: true },
     ];
   }
 
@@ -134,6 +135,6 @@ export default class DataObject {
       return this.handleContatosData();
     }
 
-    return [{ tableName: 'calendario', tableData: this.TableData }];
+    return [{ tableName: 'calendario', tableData: this.TableData, report: true }];
   }
 }

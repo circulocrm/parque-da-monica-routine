@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import app from './app';
 import transferDataUseCase from './UseCases/TransferUseCase';
+import { checkVPNConnection } from './Utils/ConnectToVPN';
 import { scheduleFunction } from './Utils/scheduleFunction';
 
 require('dotenv').config();
@@ -22,11 +23,13 @@ mongoose
 app.on('Conectado', () => {
   app.listen(process.env.PORT || 3333, async () => {
     console.log('http://localhost:3333');
+    await checkVPNConnection();
     scheduleFunction(9, 30, async () => {
       await transferDataUseCase.execute();
     });
     scheduleFunction(16, 30, async () => {
       await transferDataUseCase.execute();
     });
+    await transferDataUseCase.execute();
   });
 });
