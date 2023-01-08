@@ -30,6 +30,5 @@ app.on('Conectado', () => {
     scheduleFunction(16, 30, async () => {
       await transferDataUseCase.execute();
     });
-    await transferDataUseCase.execute();
   });
 });
