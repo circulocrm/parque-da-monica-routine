@@ -6,5 +6,5 @@ const execPromise = promisify(exec);
 export async function checkVPNConnection(): Promise<void> {
   const { stdout } = await execPromise('ipconfig');
   if (stdout.includes('parque monica')) return;
-  await execPromise('rasdial PM parque\\acesso Parque@321');
+  await execPromise('rasdial parque monica parque\\acesso Parque@321');
 }
