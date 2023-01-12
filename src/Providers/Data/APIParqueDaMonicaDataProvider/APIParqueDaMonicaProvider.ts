@@ -58,9 +58,10 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
       case 'contatos': {
         const { data } = await this.instance.post('/contatos', {
           consulta: '',
-          data: startDate,
+          data: '2014-12-22 23:59:59',
           datafinal: endDate,
         });
+        console.log('content length: ', data.length);
         return new DataObject(dataType, data);
       }
 
@@ -75,7 +76,7 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
     } {
     const currentDate = new Date();
 
-    const previousDay = new Date(currentDate.getTime() - 48 * 60 * 60 * 1000);
+    const previousDay = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000);
 
     const startDate = new Date(previousDay).setHours(0, 0, 0, 0);
 

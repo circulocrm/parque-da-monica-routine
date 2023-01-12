@@ -8,13 +8,8 @@ export default class SFMCProvider implements ISFMCProvider {
     try {
       const instance = await this.getInstance();
 
-      this.arrSlice(tableData as [], 10000).map(async (result) => {
-        await instance.post(
-          `data/v1/async/dataextensions/key:${tableKey}/rows`,
-          {
-            items: result,
-          },
-        );
+      await instance.post(`data/v1/async/dataextensions/key:${tableKey}/rows`, {
+        items: tableData,
       });
 
       return {
@@ -52,12 +47,9 @@ export default class SFMCProvider implements ISFMCProvider {
 
   async addToRecordTable(props: RecordEmailProps): Promise<void> {
     const instance = await this.getInstance();
-    await instance.put(
-      'data/v1/async/dataextensions/key:report_api/rows',
-      {
-        items: [props],
-      },
-    );
+    await instance.put('data/v1/async/dataextensions/key:report_api/rows', {
+      items: [props],
+    });
   }
 
   private arrSlice(arr: [], size: number): never[][] {

@@ -86,9 +86,9 @@ export type ContatoTableData = {
   id_cliente: number;
   nome: string;
   email: string;
-  data_nascimento: string;
+  data_nascimento: Date;
   telefone: null;
-  data_alteracao: string;
+  data_alteracao: Date;
   inativo: number;
 };
 

@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 /* eslint-disable no-unused-vars */
 import {
   ClientsTableData,
@@ -108,10 +109,17 @@ export default class DataObject {
   private handleContatosData(): dataObjectArr[] {
     const tableData = this.TableData as ContatoTableData[];
 
+    const mappedData = tableData.map((data) => {
+      return {
+        ...data,
+        data_alteracao: new Date(data.data_alteracao),
+        data_nascimento: new Date(data.data_nascimento),
+      }
+    });
     const helloParkData: ContatoTableData[] = [];
     const pmData: ContatoTableData[] = [];
 
-    tableData.forEach((data) => {
+    mappedData.forEach((data) => {
       pmData.push(data);
     });
 
@@ -135,6 +143,8 @@ export default class DataObject {
       return this.handleContatosData();
     }
 
-    return [{ tableName: 'calendario', tableData: this.TableData, report: true }];
+    return [
+      { tableName: 'calendario', tableData: this.TableData, report: true },
+    ];
   }
 }
