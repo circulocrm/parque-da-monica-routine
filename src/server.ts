@@ -25,11 +25,12 @@ app.on('Conectado', () => {
     console.log('http://localhost:3333');
     await checkVPNConnection();
     scheduleFunction(6, 30, async () => {
-      await transferDataUseCase.execute();
+      await transferDataUseCase.execute('call-1');
     });
     scheduleFunction(14, 30, async () => {
-      await transferDataUseCase.execute();
+      await transferDataUseCase.execute('call-2');
     });
-    await transferDataUseCase.execute();
+    await transferDataUseCase.execute('call-1');
+    // await transferDataUseCase.execute('call-2');
   });
 });

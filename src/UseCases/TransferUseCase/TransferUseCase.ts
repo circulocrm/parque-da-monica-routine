@@ -22,7 +22,7 @@ export default class TransferDataUseCase {
     private tables: DataTypes[], // eslint-disable-next-line no-empty-function, brace-style
   ) {}
 
-  async execute() {
+  async execute(ref: string) {
     this.tables.forEach(async (tableName) => {
       try {
         const data = await this.dataProvider.getData(tableName);
@@ -40,6 +40,7 @@ export default class TransferDataUseCase {
           status: 'sucesso',
           errorId: '---',
           message: '---',
+          ref,
         });
       } catch (error) {
         const e = error as errorProps;
@@ -68,6 +69,7 @@ export default class TransferDataUseCase {
           status: 'erro',
           errorId: e.response.data.errorID,
           message: e.response.data.msg,
+          ref,
         });
       }
     });

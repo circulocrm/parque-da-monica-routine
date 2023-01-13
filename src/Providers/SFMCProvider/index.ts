@@ -8,12 +8,13 @@ export type throwErrorEmailProps = {
   errorId?: string;
 }
 
-export type RecordEmailProps ={
+export type RecordEmailProps = {
   status?: string;
   tableName: string;
   date?: string;
   errorId?: string;
   message?: string;
+  ref: string;
 }
 
 export default interface ISFMCProvider {

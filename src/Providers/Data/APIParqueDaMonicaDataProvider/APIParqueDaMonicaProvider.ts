@@ -18,6 +18,9 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
       startDate,
       endDate,
     } = this.getDate();
+
+    // const startDate = '2014-12-22 23:59:59';
+    // const endDate = '2023-01-12 23:59:59';
     switch (dataType) {
       case 'clientes': {
         const { data } = await this.instance.post('/cliente', {
@@ -61,7 +64,6 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
           data: '2014-12-22 23:59:59',
           datafinal: endDate,
         });
-        console.log('content length: ', data.length);
         return new DataObject(dataType, data);
       }
 
