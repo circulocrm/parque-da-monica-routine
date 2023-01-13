@@ -30,7 +30,7 @@ app.on('Conectado', () => {
     scheduleFunction(14, 30, async () => {
       await transferDataUseCase.execute('call-2');
     });
-    await transferDataUseCase.execute('call-1');
+    // await transferDataUseCase.execute('call-1');
     // await transferDataUseCase.execute('call-2');
   });
 });
