@@ -47,7 +47,7 @@ export default class SFMCProvider implements ISFMCProvider {
 
   async addToRecordTable(props: RecordEmailProps): Promise<void> {
     const instance = await this.getInstance();
-    await instance.put('data/v1/async/dataextensions/key:report_api/rows', {
+    await instance.put(`data/v1/async/dataextensions/key:${props.ref}/rows`, {
       items: [props],
     });
   }
