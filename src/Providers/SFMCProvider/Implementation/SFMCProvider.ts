@@ -1,9 +1,21 @@
 import axios, { AxiosInstance } from 'axios';
-import ISFMCProvider, { RecordEmailProps, throwErrorEmailProps } from '..';
+import ISFMCProvider, { RecordEmailProps } from '..';
 import ILog from '../../../Entities/Log';
 import { DataTypes, TablesData } from '../../Data/types/dataTypes';
 
 export default class SFMCProvider implements ISFMCProvider {
+  private instance: AxiosInstance;
+
+  constructor() {
+    this.instance = axios.create({
+      baseURL:
+        'https://mcv3m3hyqxgpzlvzfp755cxp1250.rest.marketingcloudapis.com',
+      maxBodyLength: Infinity,
+      maxRedirects: Infinity,
+      maxContentLength: Infinity,
+    });
+  }
+
   async addToTable(tableKey: DataTypes, tableData: TablesData): Promise<ILog> {
     try {
       const instance = await this.getInstance();
@@ -32,15 +44,22 @@ export default class SFMCProvider implements ISFMCProvider {
     }
   }
 
-  async throwErrorEmail(props: throwErrorEmailProps): Promise<void> {
+  async throwErrorEmail(): Promise<void> {
     const instance = await this.getInstance();
     await instance.post('/interaction/v1/events', {
-      ContactKey: 'fellipe.lorram@circulocrm.com.br',
-      EventDefinitionKey: 'APIEvent-1a9a6a98-4ca3-f9cb-6350-69fd90ac29fb',
+      ContactKey: 'joeverton.sousa@circulocrm.com.br',
+      EventDefinitionKey: 'APIEvent-5fd47de6-4b6d-5147-b14e-1c859138225a',
       Data: {
-        Email: 'fellipe.lorram@circulocrm.com.br',
+        Email: 'joeverton.sousa@circulocrm.com.br',
         contactKey: Math.random(),
-        ...props,
+      },
+    });
+    await instance.post('/interaction/v1/events', {
+      ContactKey: 'andre.volcov@circulocrm.com.br',
+      EventDefinitionKey: 'APIEvent-5fd47de6-4b6d-5147-b14e-1c859138225a',
+      Data: {
+        Email: 'andre.volcov@circulocrm.com.br',
+        contactKey: Math.random(),
       },
     });
   }
@@ -52,30 +71,20 @@ export default class SFMCProvider implements ISFMCProvider {
     });
   }
 
-  private arrSlice(arr: [], size: number): never[][] {
-    const newArr = [];
-    let i = 0;
-    while (i < arr.length) {
-      newArr.push(arr.slice(i, i + size));
-      i += size;
-    }
-    return newArr;
-  }
-
   private async getInstance(): Promise<AxiosInstance> {
     const token = await this.getToken();
 
-    const instance = axios.create({
-      baseURL:
-        'https://mcv3m3hyqxgpzlvzfp755cxp1250.rest.marketingcloudapis.com',
-      maxBodyLength: Infinity,
-      maxRedirects: Infinity,
-      maxContentLength: Infinity,
-    });
+    // const instance = axios.create({
+    //   baseURL:
+    //     'https://mcv3m3hyqxgpzlvzfp755cxp1250.rest.marketingcloudapis.com',
+    //   maxBodyLength: Infinity,
+    //   maxRedirects: Infinity,
+    //   maxContentLength: Infinity,
+    // });
 
-    instance.defaults.headers.common.Authorization = `Bearer ${token}`;
+    this.instance.defaults.headers.common.Authorization = `Bearer ${token}`;
 
-    return instance;
+    return this.instance;
   }
 
   private async getToken(): Promise<string> {

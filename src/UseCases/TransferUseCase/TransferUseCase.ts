@@ -22,18 +22,19 @@ export default class TransferDataUseCase {
     private tables: DataTypes[], // eslint-disable-next-line no-empty-function, brace-style
   ) {}
 
-  async execute(ref: string) {
-    this.tables.forEach(async (tableName) => {
+  async execute(ref: 'call-1' | 'call-2') {
+    this.tables.forEach(async (tableName, index) => {
       try {
-        const data = await this.dataProvider.getData(tableName);
+        const { tableData } = await this.dataProvider.getData(tableName);
 
-        data.tableData.forEach(async (obj) => {
+        tableData.forEach(async (obj) => {
           const result = await this.sfmcProvider.addToTable(
             obj.tableName,
             obj.tableData,
           );
           await this.reportRepository.addLog(result);
         });
+
         await this.sfmcProvider.addToRecordTable({
           date: new Date().toLocaleString('pt-br'),
           tableName,
@@ -54,12 +55,13 @@ export default class TransferDataUseCase {
         });
 
         if (e.message === 'connect ETIMEDOUT 192.168.160.12:3050') {
-          await this.sfmcProvider.throwErrorEmail({
-            date: new Date().toISOString(),
-            error: 'Servidor desconectado da VPN',
-            tableName: '----------------------',
-          });
-
+          if (index < 1) {
+            await this.sfmcProvider.throwErrorEmail({
+              date: new Date().toISOString(),
+              error: 'Servidor desconectado da VPN',
+              tableName: '----------------------',
+            });
+          }
           return;
         }
 

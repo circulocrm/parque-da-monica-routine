@@ -23,6 +23,7 @@ mongoose
 app.on('Conectado', () => {
   app.listen(process.env.PORT || 3333, async () => {
     console.log('http://localhost:3333');
+
     await checkVPNConnection();
     scheduleFunction(6, 30, async () => {
       await transferDataUseCase.execute('call-1');
@@ -30,7 +31,7 @@ app.on('Conectado', () => {
     scheduleFunction(14, 30, async () => {
       await transferDataUseCase.execute('call-2');
     });
-    // await transferDataUseCase.execute('call-1');
+    await transferDataUseCase.execute('call-1');
     // await transferDataUseCase.execute('call-2');
   });
 });

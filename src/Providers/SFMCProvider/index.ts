@@ -14,7 +14,7 @@ export type RecordEmailProps = {
   date?: string;
   errorId?: string;
   message?: string;
-  ref: string;
+  ref: 'call-1' | 'call-2';
 }
 
 export default interface ISFMCProvider {

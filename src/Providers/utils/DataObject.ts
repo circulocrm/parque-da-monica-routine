@@ -59,7 +59,6 @@ export default class DataObject {
         pmData.push(data);
       }
     });
-    console.log('Clientes hello: ', helloParkData.length)
 
     return [
       { tableName: 'clientes-HelloPark', tableData: helloParkData },
@@ -80,7 +79,6 @@ export default class DataObject {
         pmData.push(data);
       }
     });
-    console.log('Vendas hello: ', helloParkData.length)
 
     return [
       { tableName: 'Vendas-HelloPark', tableData: helloParkData },
@@ -101,7 +99,7 @@ export default class DataObject {
         pmData.push(data);
       }
     });
-    console.log('Catraca hello: ', helloParkData.length)
+
     return [
       { tableName: 'catraca-HelloPark', tableData: helloParkData },
       { tableName: 'catraca', tableData: pmData, report: true },
