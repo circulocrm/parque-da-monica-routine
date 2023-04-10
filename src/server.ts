@@ -1,31 +1,37 @@
 import mongoose from 'mongoose';
 import app from './app';
 import transferDataUseCase from './UseCases/TransferUseCase';
+import { checkVPNConnection } from './Utils/ConnectToVPN';
+import { scheduleFunction } from './Utils/scheduleFunction';
 
 require('dotenv').config();
 
 declare const process: {
   env: {
-    CONNECTIONSTRING: string
-    PORT: number
-  }
+    CONNECTIONSTRING: string;
+    PORT: number;
+  };
 };
 
-mongoose.connect(process.env.CONNECTIONSTRING)
+mongoose
+  .connect(process.env.CONNECTIONSTRING)
   .then(() => {
     app.emit('Conectado');
   })
   .catch((e) => console.log(e));
 
-const executeAPI = async () => {
-  setInterval(async () => {
-    await transferDataUseCase.execute();
-  }, 1000 * 60 * 60)
-}
-
 app.on('Conectado', () => {
   app.listen(process.env.PORT || 3333, async () => {
-    console.log('http://localhost:3333')
-    await executeAPI();
+    console.log('http://localhost:3333');
+
+    await checkVPNConnection();
+    scheduleFunction(6, 30, async () => {
+      await transferDataUseCase.execute('call-1');
+    });
+    scheduleFunction(14, 30, async () => {
+      await transferDataUseCase.execute('call-2');
+    });
+    await transferDataUseCase.execute('call-1');
+    // await transferDataUseCase.execute('call-2');
   });
 });

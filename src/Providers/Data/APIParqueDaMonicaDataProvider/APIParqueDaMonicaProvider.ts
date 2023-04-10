@@ -6,25 +6,27 @@ import { DataTypes } from '../types/dataTypes';
 export default class APIParqueDaMonicaDataProvider implements IDataProvider {
   private instance: AxiosInstance;
 
-  private start_date: string;
-
   constructor() {
     this.instance = axios.create({
       baseURL: 'http://192.168.160.12:3050/api/v1/',
     });
-    this.start_date = '2022-07-01 23:59:59';
   }
 
   async getData(dataType: DataTypes): Promise<DataObject> {
     this.instance.defaults.headers.common['x-access-token'] = await this.getAuthToken();
-    const finalDate = this.getDate();
+    const {
+      startDate,
+      endDate,
+    } = this.getDate();
 
+    // const startDate = '2014-12-22 23:59:59';
+    // const endDate = '2023-01-12 23:59:59';
     switch (dataType) {
       case 'clientes': {
-        const { data } = await this.instance.post('/clientes', {
+        const { data } = await this.instance.post('/cliente', {
           consulta: '',
-          data: this.start_date,
-          datafinal: finalDate,
+          data: startDate,
+          datafinal: endDate,
         });
         return new DataObject(dataType, data);
       }
@@ -32,7 +34,8 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
       case 'venda': {
         const { data } = await this.instance.post('/vendas', {
           consulta: '',
-          data: this.start_date,
+          data: startDate,
+          datafinal: endDate,
         });
         return new DataObject(dataType, data);
       }
@@ -40,8 +43,8 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
       case 'calendario': {
         const { data } = await this.instance.post('/calendario', {
           consulta: '',
-          data: this.start_date,
-          datafinal: finalDate,
+          data: startDate,
+          datafinal: endDate,
         });
         return new DataObject(dataType, data);
       }
@@ -49,7 +52,17 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
       case 'catraca': {
         const { data } = await this.instance.post('/catraca', {
           consulta: '',
-          data: this.start_date,
+          data: startDate,
+          datafinal: endDate,
+        });
+        return new DataObject(dataType, data);
+      }
+
+      case 'contatos': {
+        const { data } = await this.instance.post('/contatos', {
+          consulta: '',
+          data: '2014-12-22 23:59:59',
+          datafinal: endDate,
         });
         return new DataObject(dataType, data);
       }
@@ -59,23 +72,25 @@ export default class APIParqueDaMonicaDataProvider implements IDataProvider {
     }
   }
 
-  private getDate(): string {
-    function padTo2Digits(num: Number) {
-      return num.toString().padStart(2, '0');
-    }
+  private getDate(): {
+    startDate: string;
+    endDate: string;
+    } {
+    const currentDate = new Date();
 
-    return (
-      `${[
-        new Date().getFullYear(),
-        padTo2Digits(new Date().getMonth() + 1),
-        padTo2Digits(new Date().getDate()),
-      ].join('-')
-      } ${[
-        padTo2Digits(new Date().getHours()),
-        padTo2Digits(new Date().getMinutes()),
-        padTo2Digits(new Date().getSeconds()),
-      ].join(':')}`
-    );
+    const previousDay = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000);
+
+    const startDate = new Date(previousDay).setHours(0, 0, 0, 0);
+
+    const endDate = new Date(previousDay).setHours(20, 59, 59, 999);
+
+    const s = new Date(startDate).toISOString().substring(0, 19).split('T')
+    const e = new Date(endDate).toISOString().substring(0, 19).split('T')
+
+    return {
+      startDate: s.join(' '),
+      endDate: e.join(' '),
+    };
   }
 
   private async getAuthToken(): Promise<string> {
